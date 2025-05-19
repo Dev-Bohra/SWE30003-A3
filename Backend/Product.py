@@ -1,10 +1,10 @@
 class Product:
-    def __init__(self, name, description, price, category):
+    def __init__(self, name, description, price, category, stock):
         self.name = name
         self.description = description
         self.price = price
         self.category = category
-
+        self.stock = stock
     @property
     def name(self):
         return self._name
@@ -54,3 +54,17 @@ class Product:
         if not isinstance(value, list):
             raise TypeError("Category must be a list of 1 or more")
         self._category = value
+
+    @property
+    def stock(self):
+        return self._stock
+
+    @stock.setter
+    def stock(self, value):
+        if value is None:
+            raise ValueError("Field cannot be empty. Type Required : Number")
+        if not isinstance(value, int):
+            raise TypeError("Stock must be an integer")
+        if value < 0:
+            raise ValueError("Stock cannot be negative")
+        self._stock = value
