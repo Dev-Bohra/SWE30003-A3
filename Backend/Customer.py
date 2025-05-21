@@ -4,7 +4,6 @@ import re
 class Customer:
     def __init__(self,id,name,passwordHash,email,number,address,regDate):
         self._id = id
-        self._name = name
         self._email = email
         self._number = number
         self._address = address
@@ -62,5 +61,21 @@ class Customer:
     def regDate(self):
         return self._regDate
     
-    
+    @property
+    def address(self):
+        return self._address
+    @address.setter
+    def address(self,value):
+        if not isinstance(value, list):
+            raise TypeError("Addresses must be stored as a list of strings")
+        if len(value) != 3:
+            raise ValueError("There must be 3 addresses in the list")
+        if not all(isinstance(addr,str) for addr in value):
+            raise TypeError("All addresses must be strings")
+        
+    def updateMutableAddress(self,new_addr):
+        if not isinstance(new_addr,str):
+            raise TypeError("New address needs to be a string")
+        self._address[2] = new_addr
 
+    
