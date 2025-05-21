@@ -1,5 +1,6 @@
 class Product:
-    def __init__(self, name, description, price, category, stock):
+    def __init__(self, sku, name, description, price, category, stock):
+        self.sku = sku
         self.name = name
         self.description = description
         self.price = price
@@ -11,7 +12,7 @@ class Product:
 
     @name.setter
     def name(self, value):
-        if value is None:
+        if value is None or (isinstance(value, str) and not value.strip()):
             raise ValueError("Field cannot be empty. Type Required : Text")
         if not isinstance(value, str):
             raise TypeError("Name must be text")
