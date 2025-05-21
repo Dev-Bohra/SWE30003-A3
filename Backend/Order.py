@@ -3,6 +3,7 @@
 from uuid import uuid4
 from datetime import datetime
 from .CartItem import CartItem
+from .Inventory import Inventory
 from .OrderItem import OrderItem
 
 class Order:
@@ -37,9 +38,12 @@ class Order:
           2) deduct stock from each product
           3) mark status as CONFIRMED
         """
+        inv = Inventory._instance
+        if inv is None:
+            raise RuntimeError("Inventory instance not initialized")
         self.validate_items()
         for item in self.items:
             if not hasattr(item.product, 'stock') or item.product.stock < item.quantity:
                 raise ValueError(f"Insufficient stock to confirm order for '{item.product.name}'")
-            item.product.stock -= item.quantity
+            inv.purchase(item.product.sku, item.quantity)
         self.status = "CONFIRMED"
