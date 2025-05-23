@@ -72,20 +72,17 @@ function Home() {
           ))}
         </div>
 
-        <h2 className="text-center mt-5 mb-4">Explore Categories</h2>
-        <div className="row justify-content-center">
-          {mockCategories.map((category) => (
-            <div className="col-md-3 col-sm-6 mb-4" key={category.name}>
-              <div className="card h-100 text-center">
-                <img src={category.image} className="card-img-top mx-auto mt-3" alt={category.name} style={{ width: '100px', height: '100px' }} />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{category.name}</h5>
-                  <button className="btn btn-outline-secondary mt-auto">View All</button>
-                </div>
-              </div>
+        {/* New Promotional Banner Section */}
+        <div className="row mt-5 mb-5">
+          <div className="col-12">
+            <div className="bg-primary text-white text-center py-4 rounded">
+              <h3>Don't Miss Our Special Offers!</h3>
+              <p>Sign up for our newsletter and get 10% off your first order.</p>
+              <button className="btn btn-light mt-2">Subscribe Now</button>
             </div>
-          ))}
+          </div>
         </div>
+
       </main>
     </>
   );
