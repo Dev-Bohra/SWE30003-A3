@@ -4,11 +4,9 @@
   padding: 1.25rem 0;
   width: 100vw;
   color: #ecf0f1;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  display: block;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
 .footer-content {
