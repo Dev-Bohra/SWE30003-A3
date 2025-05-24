@@ -1,0 +1,172 @@
+main h1 {
+    font-weight: 600;
+    color: #0d6efd;
+  }
+  
+  main p.text-muted {
+    font-size: 1rem;
+  }
+  
+  .card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
+  }
+  
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #e9ecef;
+  }
+  
+  .card-title {
+    font-weight: 500;
+  }
+  
+  .btn-outline-primary {
+    font-weight: 500;
+  }
+  
+  /* General Home Page Styles */
+
+  /* Hero Section Styles */
+  .jumbotron {
+    background: linear-gradient(to right, #e0eafc, #cfdef3); /* Subtle gradient background */
+    color: #212529;
+    padding: 6rem 1rem; /* More vertical padding */
+    margin-bottom: 4rem; /* Consistent margin below hero */
+  }
+
+  .jumbotron h1 {
+    color: #003366; /* Darker blue heading */
+    font-weight: 700;
+  }
+
+  .jumbotron p.lead {
+    color: #495057;
+    font-size: 1.25rem;
+  }
+
+  .jumbotron .btn-primary {
+    background-color: #0056b3; /* Darker shade for button */
+    border-color: #004085;
+    transition: all 0.3s ease;
+  }
+
+  .jumbotron .btn-primary:hover {
+    background-color: #003f7f;
+    border-color: #002752;
+    transform: translateY(-2px); /* Slight lift effect on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+
+  /* Featured Products Section Styles */
+  .card {
+    border: none; /* Remove default card border */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensure rounded corners apply to image */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+  }
+
+  .card:hover {
+    transform: translateY(-5px); /* Lift card on hover */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* Enhanced shadow on hover */
+  }
+
+  .card-img-top {
+    height: 200px; /* Fixed height for images */
+    object-fit: cover; /* Crop image to cover area */
+  }
+
+  .card-body {
+    padding: 1.5rem; /* More padding inside card body */
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #212529;
+  }
+
+  .card-text.text-muted {
+    font-size: 0.9rem;
+  }
+
+  .card-text.fw-bold {
+    font-size: 1rem;
+    color: #007bff; /* Blue color for price */
+  }
+
+  .card .btn-outline-primary {
+    border-width: 2px; /* Thicker border for outline button */
+    font-weight: 500;
+  }
+
+  /* Promotional Banner Section Styles */
+  .promotional-banner .bg-primary.rounded {
+    background-color: #17a2b8 !important; /* Info blue background */
+    color: #fff;
+    padding: 3rem 1rem !important; /* Vertical padding */
+    border-radius: 10px !important; /* Rounded corners */
+  }
+
+  .promotional-banner .bg-primary.rounded h3 {
+    color: #fff; /* White heading */
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .promotional-banner .bg-primary.rounded p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .promotional-banner .bg-primary.rounded .btn-light {
+    color: #17a2b8; /* Button text color matches banner background */
+    font-weight: 600;
+  }
+
+  .promotional-banner .bg-primary.rounded .btn-light:hover {
+    background-color: #e9ecef; /* Light background on hover */
+    border-color: #e2e6ea;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .jumbotron {
+      padding: 4rem 1rem;
+    }
+
+    .jumbotron h1 {
+      font-size: 2.5rem;
+    }
+
+    .jumbotron p.lead {
+      font-size: 1rem;
+    }
+
+    .card-img-top {
+      height: 150px;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .promotional-banner .bg-primary.rounded {
+      padding: 2rem 1rem !important;
+    }
+
+    .promotional-banner h3 {
+      font-size: 1.5rem;
+    }
+
+    .promotional-banner p {
+      font-size: 1rem;
+    }
+  }
+  
