@@ -1,0 +1,95 @@
+/* Products.css */
+/* Style enhancements for the product catalog page */
+
+main h2 {
+    font-weight: 700;
+    color: #003366; /* Darker blue heading */
+    margin-bottom: 2rem;
+  }
+  
+  /* Search Bar Styles */
+  .search-bar-container {
+      margin-bottom: 3rem; /* More space below the search bar */
+  }
+
+  .search-bar-container .form-control {
+      border-radius: 50px; /* Rounded search input */
+      padding: 0.75rem 1.5rem; /* More padding */
+      border-color: #ced4da; /* Default border color */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .search-bar-container .form-control:focus {
+      border-color: #80bdff; /* Highlight on focus */
+      box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25); /* Blue glow on focus */
+  }
+
+  /* Product Grid Styles */
+  .product-grid {
+      /* Add any specific grid styles here if needed */
+  }
+  
+  /* Card styles moved to ProductCard.css */
+  /*
+  .card {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    background-color: #fff;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-img-top {
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .card-body {
+      padding: 1.25rem;
+  }
+  
+  .card-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text.text-muted {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .card-text.fw-bold {
+      font-size: 1.05rem;
+      color: #007bff;
+      margin-bottom: 1rem;
+  }
+  
+  .btn-outline-primary {
+    font-weight: 500;
+    border-width: 1.5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-primary:hover {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+  }
+  */
+
+  /* Style for No Products Found message */
+  .no-products-message {
+      font-size: 1.2rem;
+      color: #6c757d;
+      margin-top: 2rem;
+  }
+  
