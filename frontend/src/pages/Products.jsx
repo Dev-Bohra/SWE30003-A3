@@ -53,9 +53,9 @@ function Products() {
   return (
     <>
       <main className="container mt-5">
-        <h2 className="text-center mb-4">Our Products</h2>
+        <h2 className="products-heading">Our Products</h2>
         {/* Search Bar */}
-        <div className="row justify-content-center mb-4">
+        <div className="search-bar-container row justify-content-center">
           <div className="col-md-6">
             <input
               type="text"
