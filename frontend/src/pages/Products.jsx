@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ProductCard from '../components/ProductCard';
 import '../styles/Products.css';
-
-// import ProductCard from '../components/ProductCard';
 
 // Mock product data
 const mockProducts = [
@@ -36,21 +35,6 @@ const mockProducts = [
     image: 'https://via.placeholder.com/300'
   },
 ];
-
-// Placeholder ProductCard component for now
-function ProductCard({ product }) {
-  return (
-    <div className="card h-100">
-      <img src={product.image} alt={product.name} className="card-img-top" />
-      <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{product.name}</h5>
-        <p className="card-text text-muted">{product.category}</p>
-        <p className="card-text fw-bold">${product.price.toFixed(2)}</p>
-        <button className="btn btn-outline-primary mt-auto">Add to Cart</button>
-      </div>
-    </div>
-  );
-}
 
 function Products() {
   const [search, setSearch] = useState('');
