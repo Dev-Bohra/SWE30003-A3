@@ -322,7 +322,7 @@ main.container {
   display: none;
 }
 
-.btn:hover .fa-lock {
+.btn:hover .bi-lock {
   display: none;
 }
 
@@ -355,7 +355,7 @@ main.container {
   display: none;
 }
 
-.btn-outline-danger:hover .fa-trash-alt {
+.btn-outline-danger:hover .bi-trash {
   display: none;
 }
 
