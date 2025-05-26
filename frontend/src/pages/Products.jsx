@@ -50,6 +50,11 @@ function Products() {
     );
   }, [search, products]);
 
+  const handleAddToCart = (product) => {
+    console.log('Adding product to cart:', product);
+    // In the future, this will update global cart state
+  };
+
   return (
     <>
       <main className="container mt-5">
@@ -72,7 +77,7 @@ function Products() {
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div className="col-md-4 mb-4" key={product._id}>
-                <ProductCard product={product} />
+                <ProductCard product={product} onAddToCart={handleAddToCart} />
               </div>
             ))
           ) : (
