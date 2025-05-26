@@ -70,7 +70,7 @@ function Cart() {
                   </td>
                   <td>
                     <button 
-                      className="btn btn-outline-danger" 
+                      className="btn" 
                       onClick={() => removeFromCart(item._id)}
                       aria-label="Remove item"
                       title="Remove item"
@@ -99,7 +99,7 @@ function Cart() {
               </h5>
               <span className="total-price">${total.toFixed(2)}</span>
             </div>
-            <button className="btn btn-primary w-100">
+            <button className="btn w-100">
               <i className="fas fa-lock"></i>
               <span>Proceed to Checkout</span>
             </button>

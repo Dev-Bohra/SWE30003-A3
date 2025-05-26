@@ -49,7 +49,7 @@ function Home() {
         <div className="container">
           <h1 className="display-4">Revolutionizing Electronics</h1>
           <p className="lead">Find the latest gadgets and accessories that power your life.</p>
-          <Link to="/products" className="btn btn-primary btn-lg mt-3">
+          <Link to="/products" className="btn mt-3">
             Shop Now
           </Link>
         </div>
@@ -75,7 +75,7 @@ function Home() {
                   <p className="card-text text-muted">{product.category}</p>
                   <p className="card-text fw-bold">${product.price.toFixed(2)}</p>
                   <button 
-                    className="btn btn-primary mt-auto" 
+                    className="btn mt-auto" 
                     onClick={() => handleAddToCart(product)}
                   >
                     Add to Cart
@@ -92,7 +92,7 @@ function Home() {
             <div className="bg-primary text-white text-center py-4 rounded">
               <h3>Don't Miss Our Special Offers!</h3>
               <p>Sign up for our newsletter and get 10% off your first order.</p>
-              <Link to="/products" className="btn btn-light mt-2">
+              <Link to="/products" className="btn mt-2">
                 Shop Now
               </Link>
             </div>
