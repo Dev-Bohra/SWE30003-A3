@@ -1,7 +1,12 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import '../styles/Navbar.css';
 
 function Navbar() {
+  const { cartItems } = useCart();
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       <div className="container">
@@ -28,7 +33,14 @@ function Navbar() {
               <Link className="nav-link" to="/products">Products</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/cart">Cart</Link>
+              <Link className="nav-link" to="/cart">
+                Cart
+                {cartItemCount > 0 && (
+                  <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/orders">My Orders</Link>

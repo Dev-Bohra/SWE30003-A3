@@ -1,5 +1,6 @@
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 import '../styles/Home.css';
 
 // Mock data structure aligned with backend expectations
@@ -36,13 +37,21 @@ const mockCategories = [
 ];
 
 function Home() {
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+  };
+
   return (
-    <>
+    <div className="home-container">
       <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5">
         <div className="container">
           <h1 className="display-4">Revolutionizing Electronics</h1>
           <p className="lead">Find the latest gadgets and accessories that power your life.</p>
-          <button className="btn btn-primary btn-lg mt-3">Shop Now</button>
+          <Link to="/products" className="btn btn-primary btn-lg mt-3">
+            Shop Now
+          </Link>
         </div>
       </div>
 
@@ -65,7 +74,12 @@ function Home() {
                   <h5 className="card-title">{product.name}</h5>
                   <p className="card-text text-muted">{product.category}</p>
                   <p className="card-text fw-bold">${product.price.toFixed(2)}</p>
-                  <button className="btn btn-outline-primary mt-auto">Add to Cart</button>
+                  <button 
+                    className="btn btn-primary mt-auto" 
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -78,12 +92,14 @@ function Home() {
             <div className="bg-primary text-white text-center py-4 rounded">
               <h3>Don't Miss Our Special Offers!</h3>
               <p>Sign up for our newsletter and get 10% off your first order.</p>
-              <button className="btn btn-light mt-2">Subscribe Now</button>
+              <Link to="/products" className="btn btn-light mt-2">
+                Shop Now
+              </Link>
             </div>
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
 

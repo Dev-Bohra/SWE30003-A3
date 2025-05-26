@@ -1,21 +1,20 @@
 .navbar {
-  box-shadow: 0 2px 12px -4px rgba(0,0,0,0.08);
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 .navbar-brand {
-  letter-spacing: 1px;
+  font-size: 1.5rem;
   font-weight: 700;
-  font-size: 2rem;
-  color: #0d6efd !important;
+  color: #0d6efd;
 }
 .navbar-nav .nav-link {
   font-weight: 500;
-  font-size: 1.05rem;
-  color: #222 !important;
-  transition: color 0.2s;
+  color: #495057;
+  transition: color 0.2s ease;
   position: relative;
 }
-.navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
-  color: #0d6efd !important;
+.navbar-nav .nav-link:hover {
+  color: #0d6efd;
 }
 .navbar-nav .nav-link::after {
   content: '';
@@ -32,16 +31,41 @@
   width: 100%;
 }
 .btn-signup {
-  background: linear-gradient(90deg, #0d6efd 60%, #0a58ca 100%);
-  color: #fff !important;
-  font-weight: 600;
-  border-radius: 6px;
-  padding: 6px 22px;
-  box-shadow: 0 2px 8px -2px rgba(13,110,253,0.10);
-  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+  background-color: #0d6efd;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
 }
 .btn-signup:hover {
-  background: linear-gradient(90deg, #0a58ca 60%, #0d6efd 100%);
-  box-shadow: 0 4px 16px -2px rgba(13,110,253,0.18);
-  transform: translateY(-2px) scale(1.04);
+  background-color: #0b5ed7;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+}
+/* Improved Cart Badge Styles */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.6rem;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #dc3545, #c82333);
+  color: white;
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  transform: translate(50%, -50%);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+  border: 2px solid white;
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nav-link:hover .badge {
+  transform: translate(50%, -50%) scale(1.1);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+  background: linear-gradient(45deg, #c82333, #bd2130);
 } 
