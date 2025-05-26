@@ -1,7 +1,6 @@
 import React from 'react';
 import '../styles/Cart.css';
 import { useCart } from '../context/CartContext';
-import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function Cart() {
   const { cartItems, total, updateQuantity, removeFromCart } = useCart();
@@ -12,7 +11,7 @@ function Cart() {
 
       {cartItems.length === 0 ? (
         <div className="empty-cart-message">
-          <i className="fas fa-shopping-cart" style={{ fontSize: '2.5rem' }}></i>
+          <i className="bi bi-cart" style={{ fontSize: '2.5rem' }}></i>
           <p className="mb-1">Your cart is currently empty.</p>
           <p className="text-muted small">Add some products to your cart to see them here.</p>
         </div>
@@ -52,7 +51,7 @@ function Cart() {
                         aria-label="Decrease quantity"
                         title="Decrease quantity"
                       >
-                        <i className="fas fa-minus-circle" style={{ fontSize: '1.2rem' }}></i>
+                        <i className="bi bi-dash-circle" style={{ fontSize: '1.2rem' }}></i>
                       </button>
                       <span className="quantity-amount">{item.quantity}</span>
                       <button 
@@ -61,7 +60,7 @@ function Cart() {
                         aria-label="Increase quantity"
                         title="Increase quantity"
                       >
-                        <i className="fas fa-plus-circle" style={{ fontSize: '1.2rem' }}></i>
+                        <i className="bi bi-plus-circle" style={{ fontSize: '1.2rem' }}></i>
                       </button>
                     </div>
                   </td>
@@ -75,8 +74,8 @@ function Cart() {
                       aria-label="Remove item"
                       title="Remove item"
                     >
-                      <i className="fas fa-trash-alt"></i>
-                      <i className="fas fa-trash hover-icon"></i>
+                      <i className="bi bi-trash"></i>
+                      <i className="bi bi-trash-fill hover-icon"></i>
                       <span>Remove</span>
                     </button>
                   </td>
@@ -88,21 +87,21 @@ function Cart() {
           <div className="cart-summary">
             <div className="cart-summary-row">
               <h5>
-                <i className="fas fa-shopping-bag"></i>
+                <i className="bi bi-bag"></i>
                 Total Items
               </h5>
               <span className="fw-semibold" style={{ fontSize: '1.1rem' }}>{cartItems.length}</span>
             </div>
             <div className="cart-summary-row">
               <h5>
-                <i className="fas fa-tag"></i>
+                <i className="bi bi-tag"></i>
                 Total Amount
               </h5>
               <span className="total-price">${total.toFixed(2)}</span>
             </div>
             <button className="btn w-100">
-              <i className="fas fa-lock"></i>
-              <i className="fas fa-unlock-alt hover-icon"></i>
+              <i className="bi bi-lock"></i>
+              <i className="bi bi-unlock hover-icon"></i>
               <span>Proceed to Checkout</span>
             </button>
           </div>

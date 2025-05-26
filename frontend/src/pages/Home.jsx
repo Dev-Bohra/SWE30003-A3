@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../styles/Home.css';
 
-// Mock data structure aligned with backend expectations
+// dummy data for testing - will be replaced with real API data later
 const mockProducts = [
   {
     _id: '1',
@@ -28,7 +28,7 @@ const mockProducts = [
   }
 ];
 
-// Mock categories
+// categories for the shop - will be dynamic later
 const mockCategories = [
   { name: 'Electronics', image: 'https://via.placeholder.com/150' },
   { name: 'Accessories', image: 'https://via.placeholder.com/150' },
@@ -37,14 +37,17 @@ const mockCategories = [
 ];
 
 function Home() {
+  // get addToCart function from our cart context
   const { addToCart } = useCart();
 
+  // handle adding items to cart
   const handleAddToCart = (product) => {
     addToCart(product);
   };
 
   return (
     <div className="home-container">
+      {/* hero section with main banner */}
       <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5">
         <div className="container">
           <h1 className="display-4">Revolutionizing Electronics</h1>
@@ -56,11 +59,13 @@ function Home() {
       </div>
 
       <main className="container mt-5">
+        {/* featured products section */}
         <h2 className="text-center mb-4">Featured Products</h2>
         <p className="text-center mb-5 text-muted">
           Discover our top-selling gadgets and must-have accessories.
         </p>
 
+        {/* product grid */}
         <div className="row">
           {mockProducts.map((product) => (
             <div className="col-md-4 mb-4" key={product._id}>
@@ -86,7 +91,7 @@ function Home() {
           ))}
         </div>
 
-        {/* New Promotional Banner Section */}
+        {/* promo banner */}
         <div className="row mt-5 mb-5">
           <div className="col-12">
             <div className="bg-primary text-white text-center py-4 rounded">

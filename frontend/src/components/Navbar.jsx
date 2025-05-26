@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../styles/Navbar.css';
+import { Nav } from 'react-bootstrap';
 
 function Navbar() {
   const { cartItems } = useCart();
@@ -43,7 +44,7 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/orders">My Orders</Link>
+              <Nav.Link as={Link} to="/orders">My Orders</Nav.Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/support">Support</Link>
