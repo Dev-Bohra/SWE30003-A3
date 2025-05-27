@@ -1,0 +1,18 @@
+[
+  {
+    "sku": "WID001",
+    "name": "Super Widget",
+    "description": "An amazing widget that does everything.",
+    "price": 19.95,
+    "category": ["tools","gadgets"],
+    "stock": 250
+  },
+  {
+    "sku": "GAD123",
+    "name": "Gadget Pro",
+    "description": "Pro-level gadget for power users.",
+    "price": 49.50,
+    "category": ["gadgets"],
+    "stock": 120
+  }
+]
