@@ -9,9 +9,9 @@ public class Order  {
     private final Inventory inventory;
     private final Payment payment;
     private final CustomerInfo customerInfo;
+    private String trackingId;
 
     private String status = "NEW";
-    private String trackingId;
 
     public Order(CustomerInfo customerInfo,
                  List<CartItem> cartItems,
@@ -44,17 +44,8 @@ public class Order  {
         }
         inventory.deductStock(items);
         new Invoice(this);
-        new Shipment();
+        Shipment shipment = new Shipment(this);
         displayOrderConfirmation();
-    }
-
-    void confirmPayment() {
-        status = "PAID";
-    }
-
-    void shipmentCreated(String tid) {
-        this.trackingId = tid;
-        this.status = "SHIPPED";
     }
 
     private void displayOrderConfirmation() {
@@ -69,14 +60,11 @@ public class Order  {
         return items.stream().mapToDouble(OrderItem::getTotalPrice).sum();
     }
 
-    public String getStatus() {
-        return status;
+    public void setTrackingId(String trackingId) {
+        this.trackingId = trackingId;
     }
 
-    public void trackOrder() {
-//        String st = shipment.queryStatus(trackingId);
-//        status = st;
-//        notify.sendStatusNotification(this, st);
-//        System.out.println("Shipment status: " + st);
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

@@ -3,24 +3,22 @@ import java.util.UUID;
 
 public class Shipment implements Notify {
 
-    public Shipment() {
-
+    private final String shipmentID;
+    private final Order orderToShip;
+    public Shipment(Order order) {
+        this.orderToShip = order;
+        this.shipmentID = UUID.randomUUID().toString();
+        send(orderToShip.getCustomerInfo());
+        orderToShip.setTrackingId(shipmentID);
     }
 
-    public void createShipment(Order order) {
-        String tid = UUID.randomUUID().toString();
-        //notify.sendTrackingNotification(order, tid);
-        order.shipmentCreated(tid);
+    public void updateOrderStatus() {
+        orderToShip.setStatus( "IN_TRANSIT");  // stub
     }
 
-    public String queryStatus(String trackingId) {
-        return "IN_TRANSIT";  // stub
-    }
-
-    public void send(Object order, Object reciever) {
-
-        if (order instanceof Order) {
+    public void send(Object reciever) {
             if (reciever instanceof CustomerInfo) {
+                updateOrderStatus();
                 String email = ((CustomerInfo) reciever).email();
                 /*
                     logic to send shipment info
@@ -30,5 +28,3 @@ public class Shipment implements Notify {
             System.out.println("shipping order");
         }
     }
-
-}
