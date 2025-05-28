@@ -11,13 +11,11 @@ public class SupportTicket implements Notify {
         this.issue      = issue;
     }
 
-    public void submit() {
-    }
     public String getCustomerId() { return customerId; }
     public String getIssue()      { return issue;      }
 
     @Override
-    public void send(Object payload, Object receiver) {
+    public void send(Object receiver) {
         /*logic to send ticker*/
     }
 }

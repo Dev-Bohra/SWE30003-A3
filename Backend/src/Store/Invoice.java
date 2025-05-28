@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-public class Invoice  implements Notify{
+public class Invoice implements Notify {
     private final String invoiceId;
     private final List<OrderItem> orderedItems;
     private final CustomerInfo customerInfo;
@@ -44,10 +44,10 @@ public class Invoice  implements Notify{
                     "Product", "Qty", "Unit Price", "Line Total"));
             writer.newLine();
             for (OrderItem item : orderedItems) {
-                String name  = item.getProduct().getName();
-                int    qty   = item.getQuantity();
-                double up    = item.getUnitPrice();
-                double lt    = item.getTotalPrice();
+                String name = item.getProduct().getName();
+                int qty = item.getQuantity();
+                double up = item.getUnitPrice();
+                double lt = item.getTotalPrice();
                 writer.write(String.format("%-20s %5d %10.2f %12.2f",
                         name, qty, up, lt));
                 writer.newLine();
@@ -63,23 +63,19 @@ public class Invoice  implements Notify{
         return file;
     }
 
-    public void send(Object order, Object reciever) {
+    public void send(Object reciever) {
         /*
-        * logic to send email with invoice would go here
-        */
-        if (order instanceof Order) {
-            if(reciever instanceof CustomerInfo) {
-                File invoice  = generateInvoice();
+         * logic to send email with invoice would go here
+         */
+
+        if (reciever instanceof CustomerInfo) {
+            File invoice = generateInvoice();
                 /*
                 logic to send invoice
                  */
-                System.out.println("Invoice sent");
-            }
-            System.out.println("Invoice not sent need customer info to send");
+            System.out.println("Invoice sent");
         }
-        else{
-            System.out.println("Invoice not sent, need an order");
-        }
+        System.out.println("Invoice not sent need customer info to send");
 
     }
 }

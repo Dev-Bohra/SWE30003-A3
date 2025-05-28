@@ -44,9 +44,10 @@ public class Feedback implements Notify {
     public void setMedia(List<String> media) {
         this.media = validateMedia(media);
     }
+
     public void submit() {
         Database.getInstance().saveFeedback(this);
-        send(this, "admin"); //TODO fix this when admin object is made
+        send("admin"); //TODO fix this when admin object is made
     }
 
     private List<String> validateMedia(List<String> media) {
@@ -72,5 +73,5 @@ public class Feedback implements Notify {
         return (idx >= 0 ? name.substring(idx).toLowerCase() : "");
     }
     @Override
-    public void send(Object payload, Object receiver) {}
+    public void send(Object receiver) {}
 }

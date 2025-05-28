@@ -6,5 +6,5 @@ package Store;
  */
 
 interface Notify {
-    void send(Object payload, Object receiver);
+    void send(Object receiver);
 }

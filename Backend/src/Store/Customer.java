@@ -53,6 +53,6 @@ public class Customer {
 
     public void raiseSupportTicket(String issue) {
         SupportTicket ticket = new SupportTicket(id, issue);
-        ticket.submit();
+        ticket.send(this.customerInfo);
     }
 }
