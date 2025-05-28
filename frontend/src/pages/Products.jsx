@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import ProductCard from '../components/ProductCard';
 import '../styles/Products.css';
 
-// Mock product data
+// test data - will be replaced with API data
 const mockProducts = [
   {
     _id: '1',
@@ -37,10 +37,12 @@ const mockProducts = [
 ];
 
 function Products() {
+  // state for search and products
   const [search, setSearch] = useState('');
   const [products, setProducts] = useState(mockProducts);
   const [filteredProducts, setFilteredProducts] = useState(mockProducts);
 
+  // filter products when search changes
   useEffect(() => {
     setFilteredProducts(
       products.filter(product =>
@@ -50,16 +52,18 @@ function Products() {
     );
   }, [search, products]);
 
+  // add product to cart (will be connected to context later)
   const handleAddToCart = (product) => {
     console.log('Adding product to cart:', product);
-    // In the future, this will update global cart state
+    // TODO: connect to cart context
   };
 
   return (
     <>
       <main className="container mt-5">
         <h2 className="products-heading">Our Products</h2>
-        {/* Search Bar */}
+        
+        {/* search input */}
         <div className="search-bar-container row justify-content-center">
           <div className="col-md-6">
             <input
@@ -72,7 +76,7 @@ function Products() {
           </div>
         </div>
 
-        {/* Product Grid */}
+        {/* display products in grid */}
         <div className="row">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (

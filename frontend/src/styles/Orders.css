@@ -1,0 +1,115 @@
+.container.py-4 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+
+.table {
+  border: 1px solid #dee2e6;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table th,
+.table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+}
+
+.table th {
+  font-weight: 600;
+  white-space: nowrap;
+  background-color: #f8f9fa;
+}
+
+.table-light th {
+   background-color: #e9ecef; /* Ensure light background for thead */
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa; /* Light hover effect */
+}
+
+.table-responsive {
+  margin-top: 1rem; /* Add some space above the table */
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Simple Status Styles */
+.status-delivered {
+  color: green;
+  font-weight: bold;
+}
+
+.status-shipped {
+  color: blue;
+  font-weight: bold;
+}
+
+.status-pending {
+  color: orange;
+  font-weight: bold;
+}
+
+/* Item list styling within table cell */
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-unstyled li {
+  margin-bottom: 0.25rem; /* Small space between items */
+}
+
+.list-unstyled li:last-child {
+  margin-bottom: 0; /* No bottom margin for the last item */
+}
+
+/* Modal Styles */
+.modal-backdrop.show {
+    opacity: 0.5; /* Standard backdrop opacity */
+}
+
+/* Adjust modal content for better appearance if needed */
+.modal-content {
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+@media (max-width: 768px) {
+  .table th,
+  .table td {
+    font-size: 0.9rem;
+  }
+
+  .list-unstyled li {
+      margin-bottom: 0.1rem;
+  }
+
+   /* Adjust modal for small screens if necessary */
+   .modal-dialog {
+       margin: 1rem; /* Add some margin */
+   }
+}
+
+/* Custom styles for select controls */
+.order-select-control {
+  min-width: 150px; /* Adjust minimum width as needed */
+  padding-right: 2.5rem; /* Increase right padding to create space before the dropdown icon */
+}
