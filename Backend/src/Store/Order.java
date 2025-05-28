@@ -38,7 +38,7 @@ public class Order  {
             status = "OUT_OF_STOCK";
             return;
         }
-        if (!payment.initiatePayment(this)) {
+        if (!payment.initiatePayment(getTotal())) {
             status = "PAYMENT_FAILED";
             return;
         }

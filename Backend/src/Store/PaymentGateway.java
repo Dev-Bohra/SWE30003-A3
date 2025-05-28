@@ -5,5 +5,5 @@ package Store;
  * «interface» PaymentGateway
  */
 public interface PaymentGateway {
-    boolean processTransaction(String orderId, double amount);
+    boolean processTransaction(double amount);
 }

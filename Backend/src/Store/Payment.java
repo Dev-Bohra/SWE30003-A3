@@ -1,9 +1,5 @@
-// Payment.java
 package Store;
 
-/**
- * Payment logic (steps 4–7 in checkout).
- */
 public class Payment {
     private final PaymentGateway gateway;
 
@@ -11,10 +7,9 @@ public class Payment {
         this.gateway = gateway;
     }
 
-    public boolean initiatePayment(Order order) {
-        boolean ok = gateway.processTransaction(order.getOrderId(),
-                order.getTotal());
-        if (ok) order.confirmPayment();
+    public boolean initiatePayment(double amount) {
+        boolean ok = gateway.processTransaction(amount);
+
         return ok;
     }
 }
