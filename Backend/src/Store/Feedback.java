@@ -1,43 +1,52 @@
 package Store;
 
-import java.util.List;
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-public class Feedback {
+public class Feedback implements Notify {
     private static final Set<String> SUPPORTED_FILE_TYPE =
             Set.of(".jpg", ".jpeg", ".png", ".mp4");
-
-    private double rating;
-    private String description;
+    private final String orderId;
+    private final String productId;
+    private final int rating;
+    private final String comment;
     private List<String> media;
 
-    public Feedback(double rating, String description, List<String> media) {
-        setRating(rating);
-        setDescription(description);
+    @JsonCreator
+    public Feedback(
+            @JsonProperty("orderId") String orderId,
+            @JsonProperty("productId") String productId,
+            @JsonProperty("rating") int rating,
+            @JsonProperty("comment") String comment,
+            @JsonProperty("media") List<String> media
+    ) {
+        this.orderId   = Objects.requireNonNull(orderId,   "orderId required");
+        this.productId = Objects.requireNonNull(productId, "productId required");
+        if (rating < 0 || rating > 5)
+            throw new IllegalArgumentException("Rating 0–5");
+        this.rating = rating;
+        this.comment = Objects.requireNonNull(comment, "Comment required");
         setMedia(media);
     }
 
-    public double getRating() { return rating; }
-    public void setRating(double rating) {
-        if (rating < 0 || rating > 5) {
-            throw new IllegalArgumentException("rating must be between 0 and 5.");
-        }
-        this.rating = rating;
-    }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) {
-        if (description == null) {
-            throw new IllegalArgumentException("Description must be a string.");
-        }
-        this.description = description.trim();
-    }
-
+    public String getOrderId()   { return orderId;   }
+    public String getProductId() { return productId; }
+    public int    getRating()    { return rating;    }
+    public String getComment()   { return comment;   }
     public List<String> getMedia() { return media; }
+
     public void setMedia(List<String> media) {
         this.media = validateMedia(media);
+    }
+    public void submit() {
+        Database.getInstance().saveFeedback(this);
+        send(this, "admin"); //TODO fix this when admin object is made
     }
 
     private List<String> validateMedia(List<String> media) {
@@ -62,4 +71,6 @@ public class Feedback {
         int idx = name.lastIndexOf('.');
         return (idx >= 0 ? name.substring(idx).toLowerCase() : "");
     }
+    @Override
+    public void send(Object payload, Object receiver) {}
 }

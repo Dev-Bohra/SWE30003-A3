@@ -1,72 +1,61 @@
 package Store;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
+import java.util.Objects;
 
 public class Product {
-    private String sku;
-    private String name;
-    private String description;
-    private double price;
-    private List<String> category;
+    private final String sku;
+    private final String name;
+    private final String description;
+    private final double price;
+    private final List<String> category;
     private int stock;
 
-    public Product(String sku,
-                   String name,
-                   String description,
-                   double price,
-                   List<String> category,
-                   int stock) {
+    @JsonCreator
+    public Product(
+            @JsonProperty("sku") String sku,
+            @JsonProperty("name") String name,
+            @JsonProperty("description") String description,
+            @JsonProperty("price") double price,
+            @JsonProperty("category") List<String> category,
+            @JsonProperty("stock") int stock
+    ) {
+        if (sku == null || sku.isEmpty())
+            throw new IllegalArgumentException("SKU required");
         this.sku = sku;
-        setName(name);
-        setDescription(description);
-        setPrice(price);
-        setCategory(category);
-        setStock(stock);
-    }
 
-    public String getSku() { return sku; }
-
-    public String getName() { return name; }
-    public void setName(String name) {
-        if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Field cannot be empty. Type Required : Text");
-        }
+        if (name == null || name.isEmpty())
+            throw new IllegalArgumentException("Name required");
         this.name = name;
-    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) {
-        if (description == null) {
-            throw new IllegalArgumentException("Field cannot be empty. Type Required : Text");
-        }
+        if (description == null || description.isEmpty())
+            throw new IllegalArgumentException("Description required");
         this.description = description;
-    }
 
-    public double getPrice() { return price; }
-    public void setPrice(double price) {
-        if (Double.isNaN(price)) {
-            throw new IllegalArgumentException("Field cannot be empty. Type Required : Number");
-        }
-        if (price < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
-        }
+        if (price < 0)
+            throw new IllegalArgumentException("Price ≥ 0");
         this.price = price;
-    }
 
-    public List<String> getCategory() { return category; }
-    public void setCategory(List<String> category) {
-        if (category == null) {
-            throw new IllegalArgumentException("Field cannot be empty. Type Required : List");
-        }
+        if (category == null)
+            throw new IllegalArgumentException("Category required");
         this.category = category;
+
+        if (stock < 0)
+            throw new IllegalArgumentException("Stock ≥ 0");
+        this.stock = stock;
     }
 
-    public int getStock() { return stock; }
+    public String getSku()         { return sku;         }
+    public String getName()        { return name;        }
+    public String getDescription() { return description; }
+    public double getPrice()       { return price;       }
+    public List<String> getCategory(){ return category;  }
+    public int getStock()          { return stock;       }
 
-    public void setStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("Stock cannot be negative");
-        }
-        this.stock = stock;
+    public void setStock(int s) {
+        if (s < 0) throw new IllegalArgumentException("Stock ≥ 0");
+        this.stock = s;
     }
 }

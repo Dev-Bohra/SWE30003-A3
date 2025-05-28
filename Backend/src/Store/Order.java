@@ -1,69 +1,82 @@
-package Store;// Store.Order.java
+package Store;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.time.LocalDateTime;
 
-public class Order {
-    private String orderId;
-    private LocalDateTime createdAt;
-    private Inventory inv;
-    private List<OrderItem> items;
-    private String status;
+public class Order  {
+    private final String orderId = UUID.randomUUID().toString();
+    private final List<OrderItem> items;
+    private final Inventory inventory;
+    private final Payment payment;
+    private final CustomerInfo customerInfo;
 
-    public Order(List<CartItem> cartItems) {
-        this.orderId   = UUID.randomUUID().toString();
-        this.createdAt = LocalDateTime.now();
-        this.inv       = Inventory.getInstance();
-        if (this.inv == null) {
-            throw new IllegalStateException("Store.Inventory instance not initialized");
-        }
-        this.items  = new ArrayList<>();
-        for (CartItem ci : cartItems) {
-            this.items.add(new OrderItem(ci));
-        }
-        this.status = "PENDING";
+    private String status = "NEW";
+    private String trackingId;
+
+    public Order(CustomerInfo customerInfo,
+                 List<CartItem> cartItems,
+                 Inventory inventory,
+                 Payment payment) {
+        this.items = cartItems.stream()
+                .map(OrderItem::new)
+                .toList();
+        this.inventory = inventory;
+        this.payment = payment;
+        this.customerInfo = customerInfo;
     }
 
-    public String getOrderId()                 { return orderId; }
-    public LocalDateTime getCreatedAt()        { return createdAt; }
-    public List<OrderItem> getItems()          { return new ArrayList<>(items); }
-    public String getStatus()                  { return status; }
-
-    public double getTotal() {
-        double sum = 0;
-        for (OrderItem item : items) {
-            sum += item.getTotalPrice();
-        }
-        return sum;
+    public CustomerInfo getCustomerInfo() {
+        return customerInfo;
     }
 
-    public boolean verifyStock() {
-        if (items.isEmpty()) {
-            throw new IllegalStateException("Store.Order must contain at least one item");
-        }
-        for (OrderItem item : items) {
-            if (item.getProduct().getStock() < item.getQuantity()) {
-                throw new IllegalStateException(
-                        "Insufficient stock to confirm order for '"
-                                + item.getProduct().getName() + "'"
-                );
-            }
-        }
-        return true;
-    }
-
-    public void deductStock() {
-        for (OrderItem item : items) {
-            inv.deductStock(item.getProduct().getSku(), item.getQuantity());
-        }
+    public List<OrderItem> getOrderItems(){
+        return items;
     }
 
     public void checkout() {
-        if (verifyStock()) {
-            deductStock();
-            this.status = "CONFIRMED";
+        if (!inventory.verifyStock(items)) {
+            status = "OUT_OF_STOCK";
+            return;
         }
+        if (!payment.initiatePayment(this)) {
+            status = "PAYMENT_FAILED";
+            return;
+        }
+        inventory.deductStock(items);
+        new Invoice(this);
+        new Shipment();
+        displayOrderConfirmation();
+    }
+
+    void confirmPayment() {
+        status = "PAID";
+    }
+
+    void shipmentCreated(String tid) {
+        this.trackingId = tid;
+        this.status = "SHIPPED";
+    }
+
+    private void displayOrderConfirmation() {
+        System.out.println("Order " + orderId + " is " + status);
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public double getTotal() {
+        return items.stream().mapToDouble(OrderItem::getTotalPrice).sum();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void trackOrder() {
+//        String st = shipment.queryStatus(trackingId);
+//        status = st;
+//        notify.sendStatusNotification(this, st);
+//        System.out.println("Shipment status: " + st);
     }
 }

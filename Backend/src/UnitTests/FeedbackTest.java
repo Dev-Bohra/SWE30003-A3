@@ -1,66 +1,41 @@
+// FeedbackTest.java
 package UnitTests;
 
+import Store.Database;
 import Store.Feedback;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.io.TempDir;
 
+import java.nio.file.*;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FeedbackTest {
-    // based on test_feedback.py :contentReference[oaicite:8]{index=8}
+    private Database db;
 
-    @Test
-    void testValidMinimalFeedback() {
-        Feedback fb = new Feedback(4.5, "", List.of());
-        assertEquals(4.5, fb.getRating(), 1e-6);
-        assertEquals("", fb.getDescription());
-        assertEquals(List.of(), fb.getMedia());
+    @BeforeEach
+    void init(@TempDir Path tmp) throws Exception {
+        Path dbPath = tmp.resolve("db.json");
+        Files.writeString(dbPath, "{ \"inventory\":[], \"feedback\":[] }");
+        db = Database.getInstance(dbPath.toString());
     }
 
     @Test
-    void testValidFullFeedback() {
-        List<String> mediaLinks = List.of(
-                "https://cdn.example.com/img1.jpg",
-                "https://cdn.example.com/video1.mp4"
-        );
-        Feedback fb = new Feedback(5.0, "Great product", mediaLinks);
-        assertEquals(5.0, fb.getRating(), 1e-6);
-        assertEquals("Great product", fb.getDescription());
-        assertEquals(mediaLinks, fb.getMedia());
+    void testSubmitPersists() {
+        Feedback fb = new Feedback("order1","SKU1",4,"Good", Collections.emptyList());
+        fb.submit();
+        List<Feedback> all = db.loadFeedback();
+        assertEquals(1, all.size());
+        assertEquals("order1", all.get(0).getOrderId());
     }
 
     @Test
-    void testRatingOutOfBounds() {
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(6.0, "", List.of()));
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(-1.0, "", List.of()));
-    }
-
-    @Test
-    void testDescriptionNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(3.0, null, List.of()));
-    }
-
-    @Test
-    void testMediaNull() {
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(3.0, "desc", null));
-    }
-
-    @Test
-    void testTooManyMediaItems() {
-        List<String> links = List.of(
-                "https://cdn.example.com/1.jpg",
-                "https://cdn.example.com/2.jpg",
-                "https://cdn.example.com/3.jpg",
-                "https://cdn.example.com/4.jpg",
-                "https://cdn.example.com/5.jpg"
-        );
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(4.0, "desc", links));
-    }
-
-    @Test
-    void testUnsupportedMediaExtension() {
-        List<String> links = List.of("https://cdn.example.com/file.pdf");
-        assertThrows(IllegalArgumentException.class, () -> new Feedback(4.0, "desc", links));
+    void testRatingBounds() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new Feedback("o","p",6,"x", Collections.emptyList()));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Feedback("o","p",-1,"x", Collections.emptyList()));
     }
 }

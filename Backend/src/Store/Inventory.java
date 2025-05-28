@@ -1,115 +1,105 @@
-package Store;// Store.Inventory.java
+package Store;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+/**
+ * Singleton Inventory delegating JSON I/O to Database.
+ */
 public class Inventory {
     private static Inventory instance;
-    private final String jsonFilepath;
-    private Map<String, Product> products;
+    private final Database db;
 
-    private Inventory(String jsonFilepath) {
-        this.jsonFilepath = jsonFilepath;
-        this.products     = new HashMap<>();
-        loadFromJson(jsonFilepath);
+    private Inventory(String dbFilepath) {
+        this.db = Database.getInstance(dbFilepath);
     }
 
-    public static Inventory getInstance(String jsonFilepath) {
+    public static synchronized Inventory getInstance(String dbFilepath) {
         if (instance == null) {
-            instance = new Inventory(jsonFilepath);
+            instance = new Inventory(dbFilepath);
         }
         return instance;
     }
 
     public static Inventory getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("Store.Inventory instance not initialized");
+            throw new IllegalStateException("Inventory not initialized");
         }
         return instance;
     }
 
-    @SuppressWarnings("unchecked")
-    private void loadFromJson(String filepath) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            List<Map<String,Object>> records = mapper.readValue(
-                    new File(filepath),
-                    new TypeReference<List<Map<String,Object>>>(){}
-            );
-            for (Map<String,Object> entry : records) {
-                for (String field : List.of("sku","name","description","price","category","stock")) {
-                    if (!entry.containsKey(field)) {
-                        throw new RuntimeException("Missing '" + field + "' in JSON record: " + entry);
-                    }
-                }
-                String sku         = (String) entry.get("sku");
-                String name        = (String) entry.get("name");
-                String desc        = (String) entry.get("description");
-                double price       = ((Number)entry.get("price")).doubleValue();
-                List<String> cat   = (List<String>) entry.get("category");
-                int stock          = ((Number)entry.get("stock")).intValue();
-
-                Product prod = new Product(sku, name, desc, price, cat, stock);
-                products.put(sku, prod);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load inventory from JSON", e);
-        }
-    }
-
-    private void saveToJson() {
-        ObjectMapper mapper = new ObjectMapper();
-        List<Map<String,Object>> payload = products.values().stream().map(p -> {
-            Map<String,Object> m = new HashMap<>();
-            m.put("sku", p.getSku());
-            m.put("name", p.getName());
-            m.put("description", p.getDescription());
-            m.put("price", p.getPrice());
-            m.put("category", p.getCategory());
-            m.put("stock", p.getStock());
-            return m;
-        }).toList();
-
-        try {
-            mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(new File(jsonFilepath), payload);
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to save inventory to JSON", e);
-        }
-    }
-
+    /** SKU → Product map for tests/UI */
     public Map<String,Product> getProducts() {
-        return new HashMap<>(products);
+        return db.loadInventory().stream()
+                .collect(Collectors.toMap(Product::getSku,p->p));
     }
 
-    public void updateProduct(Product product) {
-        products.put(product.getSku(), product);
-        saveToJson();
+    public Product getProduct(String sku) {
+        Product p = getProducts().get(sku);
+        if (p == null) throw new IllegalArgumentException("Unknown SKU: "+sku);
+        return p;
     }
 
-    public void deductStock(String sku, int quantity) {
-        if (!products.containsKey(sku)) {
-            throw new RuntimeException("SKU '" + sku + "' not found");
+    /**
+     * Real stock check: return false if any OrderItem.quantity > DB stock
+     */
+    public boolean verifyStock(List<OrderItem> items) {
+        for (OrderItem oi : items) {
+            int avail = db.getStock(oi.getProduct().getSku());
+            if (oi.getQuantity() > avail) return false;
         }
-        Product prod = products.get(sku);
-        if (prod.getStock() < quantity) {
-            throw new RuntimeException("Insufficient stock for '" + sku + "'");
-        }
-        prod.setStock(prod.getStock() - quantity);
-        updateProduct(prod);
+        return true;
     }
 
+    /**
+     * Subtract each OrderItem.qty from DB and persist.
+     */
+    public void deductStock(List<OrderItem> items) {
+        List<Product> all = db.loadInventory();
+        for (OrderItem oi : items) {
+            String sku = oi.getProduct().getSku();
+            int oldQty = db.getStock(sku);
+            int newQty = oldQty - oi.getQuantity();
+            if (newQty < 0) throw new IllegalStateException("Negative stock for "+sku);
+            db.updateStock(sku, newQty);
+        }
+    }
+
+    /**
+     * Admin: adjust stock by delta and notify
+     */
+    public void updateStock(String sku, int delta) {
+        int oldQty = db.getStock(sku);
+        int newQty = oldQty + delta;
+        if (newQty < 0) throw new IllegalArgumentException("Resulting stock < 0");
+        db.updateStock(sku, newQty);
+    }
+
+    /**
+     * Persist arbitrary changes to a Product (e.g. category list).
+     */
+    public void updateProduct(Product updated) {
+        List<Product> all = db.loadInventory();
+        boolean found = false;
+        for (int i = 0; i < all.size(); i++) {
+            if (all.get(i).getSku().equals(updated.getSku())) {
+                all.set(i, updated);
+                found = true;
+                break;
+            }
+        }
+        if (!found) throw new IllegalArgumentException("Unknown SKU: "+updated.getSku());
+        db.saveInventory(all);
+    }
+
+    /**
+     * Remove entirely.
+     */
     public void deleteProduct(String sku) {
-        if (!products.containsKey(sku)) {
-            throw new RuntimeException("SKU '" + sku + "' not found");
-        }
-        products.remove(sku);
-        saveToJson();
+        List<Product> all = db.loadInventory();
+        boolean removed = all.removeIf(p->p.getSku().equals(sku));
+        if (!removed) throw new IllegalArgumentException("Unknown SKU: "+sku);
+        db.saveInventory(all);
     }
 }

@@ -1,12 +1,10 @@
 package UnitTests;
 
-import Store.Cart;
-import Store.CartItem;
-import Store.Inventory;
-import Store.Product;
+import Store.*;
 import Store.Order;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.*;
@@ -28,12 +26,17 @@ class CartTest {
     private Inventory inventory;
     private Cart cart;
     private Path sampleFile;
-
+    private CustomerInfo customerInfo = new CustomerInfo("1", "fake", "customer","customer@email");
     private void resetInventorySingleton() {
         try {
             Field f = Inventory.class.getDeclaredField("instance");
             f.setAccessible(true);
             f.set(null, null);
+            // also reset Database singleton
+            Class<?> dbCls = Class.forName("Store.Database");
+            Field dbField = dbCls.getDeclaredField("instance");
+            dbField.setAccessible(true);
+            dbField.set(null, null);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -41,20 +44,18 @@ class CartTest {
 
     @BeforeEach
     void setUp(@TempDir Path tempDir) throws IOException {
-        // write SAMPLE_PRODUCTS to temp JSON file (sample_file fixture) :contentReference[oaicite:1]{index=1}
-        sampleFile = tempDir.resolve("inv.json");
-        Files.writeString(sampleFile, SAMPLE_PRODUCTS_JSON, StandardOpenOption.CREATE);
+        sampleFile = tempDir.resolve("database.json");
+        // create combined DB with just inventory
+        String dbJson = "{ \"inventory\":" + SAMPLE_PRODUCTS_JSON + ", \"feedback\":[] }";
+        Files.writeString(sampleFile, dbJson, StandardOpenOption.CREATE);
 
-        // reset singleton and load new inventory :contentReference[oaicite:2]{index=2}
         resetInventorySingleton();
         inventory = Inventory.getInstance(sampleFile.toString());
-
-        cart = new Cart();
+        cart      = new Cart();
     }
 
     @Test
     void testCartItemSubtotal() {
-        // from test_cart.py: test_cart_item_subtotal :contentReference[oaicite:3]{index=3}
         Product p = inventory.getProducts().get("p1");
         CartItem ci = new CartItem(p, 2);
         assertEquals(p.getPrice() * 2, ci.getSubtotal(), 1e-6);
@@ -62,7 +63,6 @@ class CartTest {
 
     @Test
     void testValidateAvailabilityThrowsIfInsufficientStock() {
-        // from test_cart.py: test_validate_availability_raises_if_insufficient_stock :contentReference[oaicite:4]{index=4}
         Product p = inventory.getProducts().get("p2");
         CartItem ci = new CartItem(p, p.getStock() + 1);
         assertThrows(IllegalStateException.class, ci::validateAvailability);
@@ -70,7 +70,6 @@ class CartTest {
 
     @Test
     void testCartAddRemoveCalculate() {
-        // from test_cart.py: test_cart_add_remove_calculate :contentReference[oaicite:5]{index=5}
         cart.addItem(inventory.getProducts().get("p1"), 2);
         cart.addItem(inventory.getProducts().get("p2"), 1);
         assertEquals(13.00, cart.calculateTotal(), 1e-6);
@@ -80,13 +79,12 @@ class CartTest {
     }
 
     @Test
-    void testOrderConfirmReducesInventoryStock() {
-        // from test_cart.py: test_order_confirm_reduces_inventory_stock :contentReference[oaicite:6]{index=6}
+    void testOrderConfirmReducesInventoryStock() throws IOException {
         String sku = "p3";
-        int start = inventory.getProducts().get(sku).getStock();
+        int start  = inventory.getProducts().get(sku).getStock();
 
         cart.addItem(inventory.getProducts().get(sku), 2);
-        Order order = cart.initiateOrder();
+        Order order = cart.initiateOrder(customerInfo);
         order.checkout();
 
         assertEquals(start - 2, inventory.getProducts().get(sku).getStock());
@@ -94,22 +92,26 @@ class CartTest {
 
     @Test
     void testOrderConfirmPersistsToJson() throws IOException {
-        // from test_cart.py: test_order_confirm_persists_to_json :contentReference[oaicite:7]{index=7}
         String sku = "p2";
         cart.addItem(inventory.getProducts().get(sku), 1);
-        Order order = cart.initiateOrder();
+        Order order = cart.initiateOrder(customerInfo);
         order.checkout();
 
+        // read back the JSON file
         ObjectMapper mapper = new ObjectMapper();
-        List<Map<String,Object>> data = mapper.readValue(
+        Map<String,Object> root = mapper.readValue(
                 sampleFile.toFile(),
                 new TypeReference<>() {}
         );
-        Map<String,Object> rec = data.stream()
+        @SuppressWarnings("unchecked")
+        List<Map<String,?>> inv = (List<Map<String,?>>) root.get("inventory");
+
+        Integer diskStock = inv.stream()
                 .filter(m -> sku.equals(m.get("sku")))
                 .findFirst()
+                .map(m -> (Integer)m.get("stock"))
                 .orElseThrow();
-        Integer diskStock = (Integer) rec.get("stock");
-        assertEquals(inventory.getProducts().get(sku).getStock(), diskStock.intValue());
+        assertEquals(inventory.getProducts().get(sku).getStock(),
+                diskStock.intValue());
     }
 }
