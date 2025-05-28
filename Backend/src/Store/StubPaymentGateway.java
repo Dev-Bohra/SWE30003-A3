@@ -1,4 +1,3 @@
-// StubPaymentGateway.java
 package Store;
 
 /**
@@ -6,9 +5,7 @@ package Store;
  */
 public class StubPaymentGateway implements PaymentGateway {
     @Override
-    public boolean processTransaction(String orderId, double amount) {
-        System.out.println("[StubPaymentGateway] processTransaction("
-                + orderId + ", " + amount + ")");
+    public boolean processTransaction(double amount) {
         return true;
     }
 }
