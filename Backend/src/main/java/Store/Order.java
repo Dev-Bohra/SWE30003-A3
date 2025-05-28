@@ -3,7 +3,7 @@ package Store;
 import java.util.List;
 import java.util.UUID;
 
-public class Order  {
+public class Order {
     private final String orderId = UUID.randomUUID().toString();
     private final List<OrderItem> items;
     private final Inventory inventory;
@@ -29,7 +29,7 @@ public class Order  {
         return customerInfo;
     }
 
-    public List<OrderItem> getOrderItems(){
+    public List<OrderItem> getOrderItems() {
         return items;
     }
 

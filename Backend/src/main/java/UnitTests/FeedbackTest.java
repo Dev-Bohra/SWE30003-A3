@@ -24,7 +24,7 @@ class FeedbackTest {
 
     @Test
     void testSubmitPersists() {
-        Feedback fb = new Feedback("order1","SKU1",4,"Good", Collections.emptyList());
+        Feedback fb = new Feedback("order1", "SKU1", 4, "Good", Collections.emptyList());
         fb.submit();
         List<Feedback> all = db.loadFeedback();
         assertEquals(1, all.size());
@@ -34,8 +34,8 @@ class FeedbackTest {
     @Test
     void testRatingBounds() {
         assertThrows(IllegalArgumentException.class,
-                () -> new Feedback("o","p",6,"x", Collections.emptyList()));
+                () -> new Feedback("o", "p", 6, "x", Collections.emptyList()));
         assertThrows(IllegalArgumentException.class,
-                () -> new Feedback("o","p",-1,"x", Collections.emptyList()));
+                () -> new Feedback("o", "p", -1, "x", Collections.emptyList()));
     }
 }

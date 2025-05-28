@@ -14,13 +14,19 @@ public class CartItem {
     public CartItem(Product product, int quantity) {
         Objects.requireNonNull(product, "Product required");
         if (quantity <= 0) throw new IllegalArgumentException("Quantity > 0");
-        this.product  = product;
+        this.product = product;
         this.quantity = quantity;
     }
 
-    public Product getProduct() { return product; }
-    public int     getQuantity(){ return quantity; }
-    public void    setQuantity(int q) {
+    public Product getProduct() {
+        return product;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int q) {
         if (q <= 0) throw new IllegalArgumentException("Quantity > 0");
         quantity = q;
     }

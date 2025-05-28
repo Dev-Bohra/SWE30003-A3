@@ -18,10 +18,10 @@ public class Customer {
                     String email,
                     Cart cart,
                     Authentication auth) {
-        this.id     = id;
+        this.id = id;
         this.customerInfo = new CustomerInfo(this.id, firstName, lastName, email);
-        this.cart   = cart;
-        this.auth   = auth;
+        this.cart = cart;
+        this.auth = auth;
 
     }
 

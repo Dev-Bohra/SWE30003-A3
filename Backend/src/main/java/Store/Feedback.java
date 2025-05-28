@@ -26,7 +26,7 @@ public class Feedback implements Notify {
             @JsonProperty("comment") String comment,
             @JsonProperty("media") List<String> media
     ) {
-        this.orderId   = Objects.requireNonNull(orderId,   "orderId required");
+        this.orderId = Objects.requireNonNull(orderId, "orderId required");
         this.productId = Objects.requireNonNull(productId, "productId required");
         if (rating < 0 || rating > 5)
             throw new IllegalArgumentException("Rating 0–5");
@@ -35,11 +35,25 @@ public class Feedback implements Notify {
         setMedia(media);
     }
 
-    public String getOrderId()   { return orderId;   }
-    public String getProductId() { return productId; }
-    public int    getRating()    { return rating;    }
-    public String getComment()   { return comment;   }
-    public List<String> getMedia() { return media; }
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public List<String> getMedia() {
+        return media;
+    }
 
     public void setMedia(List<String> media) {
         this.media = validateMedia(media);
@@ -72,6 +86,8 @@ public class Feedback implements Notify {
         int idx = name.lastIndexOf('.');
         return (idx >= 0 ? name.substring(idx).toLowerCase() : "");
     }
+
     @Override
-    public void send(Object receiver) {}
+    public void send(Object receiver) {
+    }
 }

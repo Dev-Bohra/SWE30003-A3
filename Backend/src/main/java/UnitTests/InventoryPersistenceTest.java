@@ -65,14 +65,15 @@ class InventoryPersistenceTest {
 
         ObjectMapper mapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
-        Map<String,Object> root = mapper.readValue(
+        Map<String, Object> root = mapper.readValue(
                 sampleFile.toFile(),
-                new TypeReference<>() {}
+                new TypeReference<>() {
+                }
         );
         @SuppressWarnings("unchecked")
-        List<Map<String,Object>> inv =
-                (List<Map<String,Object>>)root.get("inventory");
-        assertEquals(8, (Integer)inv.get(0).get("stock"));
+        List<Map<String, Object>> inv =
+                (List<Map<String, Object>>) root.get("inventory");
+        assertEquals(8, (Integer) inv.get(0).get("stock"));
     }
 
     @Test
@@ -82,16 +83,17 @@ class InventoryPersistenceTest {
 
         ObjectMapper mapper = new ObjectMapper();
         @SuppressWarnings("unchecked")
-        Map<String,Object> root = mapper.readValue(
+        Map<String, Object> root = mapper.readValue(
                 sampleFile.toFile(),
-                new TypeReference<>() {}
+                new TypeReference<>() {
+                }
         );
         @SuppressWarnings("unchecked")
-        List<Map<String,Object>> inv =
-                (List<Map<String,Object>>)root.get("inventory");
+        List<Map<String, Object>> inv =
+                (List<Map<String, Object>>) root.get("inventory");
 
         Set<String> skus = new HashSet<>();
-        for (var m : inv) skus.add((String)m.get("sku"));
-        assertEquals(Set.of("p1","p3"), skus);
+        for (var m : inv) skus.add((String) m.get("sku"));
+        assertEquals(Set.of("p1", "p3"), skus);
     }
 }

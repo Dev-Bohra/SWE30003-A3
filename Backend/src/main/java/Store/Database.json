@@ -5,7 +5,10 @@
       "name": "Widget A",
       "description": "High-quality widget for all purposes",
       "price": 19.99,
-      "category": ["tools", "gadgets"],
+      "category": [
+        "tools",
+        "gadgets"
+      ],
       "stock": 100
     },
     {
@@ -13,7 +16,10 @@
       "name": "Gadget B",
       "description": "Multi-purpose gadget with advanced features",
       "price": 29.99,
-      "category": ["electronics", "home"],
+      "category": [
+        "electronics",
+        "home"
+      ],
       "stock": 50
     },
     {
@@ -21,7 +27,10 @@
       "name": "Device C",
       "description": "Compact device for everyday tasks",
       "price": 9.99,
-      "category": ["office", "accessories"],
+      "category": [
+        "office",
+        "accessories"
+      ],
       "stock": 200
     }
   ],
@@ -60,8 +69,14 @@
       "orderId": "ORDER-1001",
       "customerId": "CUST-001",
       "items": [
-        { "sku": "SKU001", "quantity": 2 },
-        { "sku": "SKU003", "quantity": 1 }
+        {
+          "sku": "SKU001",
+          "quantity": 2
+        },
+        {
+          "sku": "SKU003",
+          "quantity": 1
+        }
       ],
       "total": 49.97,
       "status": "SHIPPED",
@@ -71,7 +86,10 @@
       "orderId": "ORDER-1002",
       "customerId": "CUST-002",
       "items": [
-        { "sku": "SKU003", "quantity": 3 }
+        {
+          "sku": "SKU003",
+          "quantity": 3
+        }
       ],
       "total": 29.97,
       "status": "DELIVERED",

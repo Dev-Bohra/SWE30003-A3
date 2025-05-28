@@ -56,7 +56,7 @@ public class Cart {
      */
     public Order initiateOrder(CustomerInfo customerInfo) {
         Inventory inventory = Inventory.getInstance();
-        Payment  payment    = new Payment(new StubPaymentGateway());
+        Payment payment = new Payment(new StubPaymentGateway());
 
         return new Order(
                 customerInfo,

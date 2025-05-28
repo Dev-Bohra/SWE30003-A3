@@ -9,6 +9,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.nio.file.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class InventorySingletonTest {
@@ -42,10 +43,10 @@ class InventorySingletonTest {
     @Test
     void testOnlyLoadedOnce(@TempDir Path tempDir) throws Exception {
         resetSingletons();
-        Path firstJson  = tempDir.resolve("first.json");
+        Path firstJson = tempDir.resolve("first.json");
         Path secondJson = tempDir.resolve("second.json");
         Files.writeString(firstJson, "{\"inventory\":[],\"feedback\":[]}");
-        Files.writeString(secondJson,"{\"inventory\":[{\"sku\":\"x\",\"name\":\"Y\",\"description\":\"D\",\"price\":1.0,\"category\":[],\"stock\":0}],\"feedback\":[]}");
+        Files.writeString(secondJson, "{\"inventory\":[{\"sku\":\"x\",\"name\":\"Y\",\"description\":\"D\",\"price\":1.0,\"category\":[],\"stock\":0}],\"feedback\":[]}");
 
         Inventory inv1 = Inventory.getInstance(firstJson.toString());
         Inventory inv2 = Inventory.getInstance(secondJson.toString());

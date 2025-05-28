@@ -2,6 +2,7 @@ package Store;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -47,12 +48,29 @@ public class Product {
         this.stock = stock;
     }
 
-    public String getSku()         { return sku;         }
-    public String getName()        { return name;        }
-    public String getDescription() { return description; }
-    public double getPrice()       { return price;       }
-    public List<String> getCategory(){ return category;  }
-    public int getStock()          { return stock;       }
+    public String getSku() {
+        return sku;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public List<String> getCategory() {
+        return category;
+    }
+
+    public int getStock() {
+        return stock;
+    }
 
     public void setStock(int s) {
         if (s < 0) throw new IllegalArgumentException("Stock ≥ 0");

@@ -29,15 +29,17 @@ public class Inventory {
         return instance;
     }
 
-    /** SKU → Product map for tests/UI */
-    public Map<String,Product> getProducts() {
+    /**
+     * SKU → Product map for tests/UI
+     */
+    public Map<String, Product> getProducts() {
         return db.loadInventory().stream()
-                .collect(Collectors.toMap(Product::getSku,p->p));
+                .collect(Collectors.toMap(Product::getSku, p -> p));
     }
 
     public Product getProduct(String sku) {
         Product p = getProducts().get(sku);
-        if (p == null) throw new IllegalArgumentException("Unknown SKU: "+sku);
+        if (p == null) throw new IllegalArgumentException("Unknown SKU: " + sku);
         return p;
     }
 
@@ -61,7 +63,7 @@ public class Inventory {
             String sku = oi.getProduct().getSku();
             int oldQty = db.getStock(sku);
             int newQty = oldQty - oi.getQuantity();
-            if (newQty < 0) throw new IllegalStateException("Negative stock for "+sku);
+            if (newQty < 0) throw new IllegalStateException("Negative stock for " + sku);
             db.updateStock(sku, newQty);
         }
     }
@@ -89,7 +91,7 @@ public class Inventory {
                 break;
             }
         }
-        if (!found) throw new IllegalArgumentException("Unknown SKU: "+updated.getSku());
+        if (!found) throw new IllegalArgumentException("Unknown SKU: " + updated.getSku());
         db.saveInventory(all);
     }
 
@@ -98,8 +100,8 @@ public class Inventory {
      */
     public void deleteProduct(String sku) {
         List<Product> all = db.loadInventory();
-        boolean removed = all.removeIf(p->p.getSku().equals(sku));
-        if (!removed) throw new IllegalArgumentException("Unknown SKU: "+sku);
+        boolean removed = all.removeIf(p -> p.getSku().equals(sku));
+        if (!removed) throw new IllegalArgumentException("Unknown SKU: " + sku);
         db.saveInventory(all);
     }
 }

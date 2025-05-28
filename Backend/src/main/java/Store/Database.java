@@ -51,7 +51,7 @@ public class Database {
             if (!node.isObject()) throw new IOException("Invalid DB format");
             ObjectNode root = (ObjectNode) node;
             if (!root.has("inventory")) root.putArray("inventory");
-            if (!root.has("feedback" )) root.putArray("feedback");
+            if (!root.has("feedback")) root.putArray("feedback");
             return root;
         } catch (IOException e) {
             throw new RuntimeException("Failed to read database", e);
@@ -70,7 +70,8 @@ public class Database {
     public List<Product> loadInventory() {
         ObjectNode root = readRoot();
         return mapper.convertValue(root.get("inventory"),
-                new TypeReference<List<Product>>() {});
+                new TypeReference<List<Product>>() {
+                });
     }
 
     public void saveInventory(List<Product> products) {
@@ -104,13 +105,15 @@ public class Database {
     public List<Feedback> loadFeedback() {
         ObjectNode root = readRoot();
         return mapper.convertValue(root.get("feedback"),
-                new TypeReference<List<Feedback>>() {});
+                new TypeReference<List<Feedback>>() {
+                });
     }
 
     public void saveFeedback(Feedback fb) {
         ObjectNode root = readRoot();
         List<Feedback> all = mapper.convertValue(root.get("feedback"),
-                new TypeReference<List<Feedback>>() {});
+                new TypeReference<List<Feedback>>() {
+                });
         all.add(fb);
         root.set("feedback", mapper.valueToTree(all));
         writeRoot(root);

@@ -26,7 +26,8 @@ class CartTest {
     private Inventory inventory;
     private Cart cart;
     private Path sampleFile;
-    private CustomerInfo customerInfo = new CustomerInfo("1", "fake", "customer","customer@email");
+    private CustomerInfo customerInfo = new CustomerInfo("1", "fake", "customer", "customer@email");
+
     private void resetInventorySingleton() {
         try {
             Field f = Inventory.class.getDeclaredField("instance");
@@ -51,7 +52,7 @@ class CartTest {
 
         resetInventorySingleton();
         inventory = Inventory.getInstance(sampleFile.toString());
-        cart      = new Cart();
+        cart = new Cart();
     }
 
     @Test
@@ -81,7 +82,7 @@ class CartTest {
     @Test
     void testOrderConfirmReducesInventoryStock() throws IOException {
         String sku = "p3";
-        int start  = inventory.getProducts().get(sku).getStock();
+        int start = inventory.getProducts().get(sku).getStock();
 
         cart.addItem(inventory.getProducts().get(sku), 2);
         Order order = cart.initiateOrder(customerInfo);
@@ -99,17 +100,18 @@ class CartTest {
 
         // read back the JSON file
         ObjectMapper mapper = new ObjectMapper();
-        Map<String,Object> root = mapper.readValue(
+        Map<String, Object> root = mapper.readValue(
                 sampleFile.toFile(),
-                new TypeReference<>() {}
+                new TypeReference<>() {
+                }
         );
         @SuppressWarnings("unchecked")
-        List<Map<String,?>> inv = (List<Map<String,?>>) root.get("inventory");
+        List<Map<String, ?>> inv = (List<Map<String, ?>>) root.get("inventory");
 
         Integer diskStock = inv.stream()
                 .filter(m -> sku.equals(m.get("sku")))
                 .findFirst()
-                .map(m -> (Integer)m.get("stock"))
+                .map(m -> (Integer) m.get("stock"))
                 .orElseThrow();
         assertEquals(inventory.getProducts().get(sku).getStock(),
                 diskStock.intValue());
