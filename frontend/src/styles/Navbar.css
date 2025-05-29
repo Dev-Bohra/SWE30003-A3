@@ -1,26 +1,149 @@
 .navbar {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #007bff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: #0056b3;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.navbar-links a {
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: #4a90e2;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.username {
+  color: #333;
+  font-weight: 500;
+}
+
+.admin-badge {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #dc3545 !important;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  transition: color 0.3s ease;
+  text-align: left;
+}
+
+.logout-button:hover {
+  color: #c82333 !important;
+  text-decoration: underline;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.login-button,
+.signup-button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.login-button {
+  color: #4a90e2;
+  border: 1px solid #4a90e2;
+}
+
+.login-button:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.signup-button {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.signup-button:hover {
+  background-color: #357abd;
+}
+
+.admin-link {
+  color: #4a90e2 !important;
+  font-weight: 600 !important;
+}
+
+.cart-count {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  margin-left: 0.3rem;
+}
+
 .navbar .navbar-brand {
   color: #000000 !important;
   font-weight: 700;
   font-size: 1.5rem;
 }
+
 .navbar-brand:hover {
   color: #dc3545 !important;
 }
+
 .navbar-nav .nav-link {
   color: #000000 !important;
   font-weight: 500;
   padding: 0.5rem 1rem !important;
   transition: all 0.3s ease;
 }
+
 .navbar-nav .nav-link:hover {
   color: #dc3545 !important;
 }
+
 .navbar-nav .nav-link::after {
   content: '';
   position: absolute;
@@ -32,98 +155,140 @@
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
+
 .navbar-nav .nav-link:hover::after {
   width: 100%;
 }
+
 .btn-signup {
-  background-color: #dc3545;
-  color: #ffffff;
-  padding: 0.5rem 1.5rem;
-  border-radius: 50px;
-  font-weight: 600;
-  border: none;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 0.9rem;
-  transition: all 0.3s ease;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
+
 .btn-signup:hover {
-  background-color: #c82333;
-  color: #ffffff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
+  background-color: #0056b3;
+  color: white;
 }
+
 .btn-signup:active {
   transform: scale(0.98);
 }
+
 .btn-signup:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
 }
+
 .btn-signup:focus:not(:focus-visible) {
   box-shadow: none;
 }
+
 /* Improved Cart Badge Styles */
 .badge {
   font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.35rem 0.6rem;
-  border-radius: 12px;
-  background: linear-gradient(45deg, #dc3545, #c82333);
-  color: #ffffff;
-  position: absolute;
-  top: -8px;
-  right: -12px;
-  transform: translate(50%, -50%);
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
-  border: 2px solid #ffffff;
-  min-width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 0.25rem 0.5rem;
 }
+
 .nav-link:hover .badge {
   transform: translate(50%, -50%) scale(1.1);
   box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
   background: linear-gradient(45deg, #c82333, #bd2130);
 }
+
 .nav-link.active {
   color: #dc3545 !important;
   font-weight: 600;
 }
+
+.btn-logout {
+  background: none !important;
+  border: none !important;
+  color: #dc3545 !important;
+  cursor: pointer;
+  font-weight: 500 !important;
+  padding: 0.5rem 1rem !important;
+  transition: color 0.3s ease;
+  text-align: left;
+  text-decoration: none !important;
+}
+
+.btn-logout:hover {
+  background: none !important;
+  color: #c82333 !important;
+  text-decoration: none !important;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 2rem;
+}
+
+.user-info-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 0.3rem 0.8rem;
+}
+
+.user-icon {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.username-text {
+  font-weight: 500;
+  color: #333;
+}
+
 .cart-icon {
   color: #000000;
   font-size: 1.2rem;
   position: relative;
   transition: all 0.3s ease;
 }
+
 .cart-icon:hover {
   color: #dc3545;
 }
-.cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #dc3545;
-  color: #ffffff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .navbar-toggler {
   border: none;
   padding: 0.5rem;
 }
+
 .navbar-toggler:focus {
   box-shadow: none;
 }
+
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    padding: 1rem 0;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0;
+  }
+
+  .btn-signup {
+    margin-top: 0.5rem;
+  }
+
+  .user-info {
+    margin-top: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 } 
