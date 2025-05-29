@@ -3,10 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import '../styles/Signup.css';
 
+const selectedBtnStyle = {
+  backgroundColor: '#198754',
+  color: '#fff',
+  borderColor: '#000',
+};
+
 function Signup() {
   const navigate = useNavigate();
   const { signup, login } = useAuth();
   const [activeTab, setActiveTab] = useState('login');
+  const [showAdminForm, setShowAdminForm] = useState(false);
   const [signupData, setSignupData] = useState({
     username: '',
     email: '',
@@ -16,6 +23,10 @@ function Signup() {
   });
   const [loginData, setLoginData] = useState({
     email: '',
+    password: ''
+  });
+  const [adminData, setAdminData] = useState({
+    username: '',
     password: ''
   });
   const [error, setError] = useState('');
@@ -31,6 +42,14 @@ function Signup() {
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleAdminChange = (e) => {
+    const { name, value } = e.target;
+    setAdminData(prev => ({
       ...prev,
       [name]: value
     }));
@@ -88,6 +107,23 @@ function Signup() {
 
     try {
       await login(loginData.email, loginData.password);
+      navigate('/');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleAdminSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!adminData.username || !adminData.password) {
+      setError('All fields are required');
+      return;
+    }
+
+    try {
+      await login(adminData.username, adminData.password, 'Admin');
       navigate('/');
     } catch (err) {
       setError(err.message);
@@ -158,31 +194,82 @@ function Signup() {
         ) : (
           <form onSubmit={handleLoginSubmit}>
             <h2>Sign In</h2>
-            <div className="form-group">
-              <label htmlFor="loginEmail">Email</label>
-              <input
-                type="email"
-                id="loginEmail"
-                name="email"
-                value={loginData.email}
-                onChange={handleLoginChange}
-                placeholder="Enter your email"
-              />
+            <div className="d-flex gap-2 mb-3">
+              <button
+                type="button"
+                className={`btn btn-sm flex-grow-1 border border-dark`}
+                style={!showAdminForm ? selectedBtnStyle : { backgroundColor: '#fff', color: '#000', borderColor: '#000' }}
+                onClick={() => setShowAdminForm(false)}
+              >
+                Customer
+              </button>
+              <button
+                type="button"
+                className={`btn btn-sm flex-grow-1 border border-dark`}
+                style={showAdminForm ? selectedBtnStyle : { backgroundColor: '#fff', color: '#000', borderColor: '#000' }}
+                onClick={() => setShowAdminForm(true)}
+              >
+                Admin
+              </button>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="loginPassword">Password</label>
-              <input
-                type="password"
-                id="loginPassword"
-                name="password"
-                value={loginData.password}
-                onChange={handleLoginChange}
-                placeholder="Enter your password"
-              />
-            </div>
+            {showAdminForm ? (
+              <>
+                <div className="form-group">
+                  <label htmlFor="adminUsername">Username</label>
+                  <input
+                    type="text"
+                    id="adminUsername"
+                    name="username"
+                    value={adminData.username}
+                    onChange={handleAdminChange}
+                    placeholder="Enter admin username"
+                  />
+                </div>
 
-            <button type="submit" className="auth-button">Sign In</button>
+                <div className="form-group">
+                  <label htmlFor="adminPassword">Password</label>
+                  <input
+                    type="password"
+                    id="adminPassword"
+                    name="password"
+                    value={adminData.password}
+                    onChange={handleAdminChange}
+                    placeholder="Enter admin password"
+                  />
+                </div>
+
+                <button type="button" className="auth-button" onClick={handleAdminSubmit}>Sign In as Admin</button>
+              </>
+            ) : (
+              <>
+                <div className="form-group">
+                  <label htmlFor="loginEmail">Email</label>
+                  <input
+                    type="email"
+                    id="loginEmail"
+                    name="email"
+                    value={loginData.email}
+                    onChange={handleLoginChange}
+                    placeholder="Enter your email"
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="loginPassword">Password</label>
+                  <input
+                    type="password"
+                    id="loginPassword"
+                    name="password"
+                    value={loginData.password}
+                    onChange={handleLoginChange}
+                    placeholder="Enter your password"
+                  />
+                </div>
+
+                <button type="submit" className="auth-button">Sign In</button>
+              </>
+            )}
             <div className="auth-switch">
               Don't have an account? <button type="button" className="switch-link" onClick={() => setActiveTab('signup')}>Sign up</button>
             </div>

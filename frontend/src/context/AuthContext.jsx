@@ -35,7 +35,21 @@ export function AuthProvider({ children }) {
     login(userData.email, userData.password);
   };
 
-  const login = (email, password) => {
+  const login = (email, password, role) => {
+    // Mock admin credentials
+    if (role === 'Admin') {
+      if (email === 'admin' && password === 'password') {
+        const adminUser = {
+          username: 'admin',
+          role: 'Admin'
+        };
+        setCurrentUser(adminUser);
+        localStorage.setItem('currentUser', JSON.stringify(adminUser));
+        return;
+      }
+      throw new Error('Invalid admin credentials');
+    }
+
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     const user = users.find(u => u.email === email && u.password === password);
 

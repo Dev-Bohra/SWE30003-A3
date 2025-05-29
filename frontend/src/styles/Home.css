@@ -182,3 +182,88 @@ main p.text-muted {
 .bg-primary.rounded .btn-light:hover {
 }
 
+.banner-gradient {
+  background: linear-gradient(90deg, #000 0%, #000 60%, #e0e0e0 100%);
+  color: #fff !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 5rem 1.5rem 4rem 1.5rem;
+  margin-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.banner-gradient h1.display-4,
+.banner-gradient p.lead {
+  color: #fff !important;
+  text-shadow: 0 2px 8px #000;
+}
+
+.banner-gradient h1.display-4 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 1.2rem;
+  background: none;
+  -webkit-background-clip: initial;
+  -webkit-text-fill-color: initial;
+  background-clip: initial;
+}
+
+.banner-gradient h1.display-4::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 18px auto 0 auto;
+  background: linear-gradient(90deg, #000 0%, #fff 100%);
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+.banner-gradient .btn {
+  background: #fff;
+  color: #b80000;
+  border: 2px solid #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 0.85rem 2.5rem;
+  border-radius: 30px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  transition: all 0.25s cubic-bezier(.4,2,.6,1);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 2;
+}
+
+.banner-gradient .btn:hover {
+  background: #b80000;
+  color: #fff;
+  border-color: #fff;
+  box-shadow: 0 6px 24px rgba(255,0,51,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+
+.banner-gradient::before,
+.banner-gradient::after {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .banner-gradient {
+    padding: 3rem 0.5rem 2.5rem 0.5rem;
+  }
+  .banner-gradient h1.display-4 {
+    font-size: 2.1rem;
+  }
+  .banner-gradient p.lead {
+    font-size: 1.1rem;
+  }
+  .banner-gradient::after {
+    width: 120px;
+    height: 120px;
+    right: -40px;
+    top: 10px;
+  }
+}
+

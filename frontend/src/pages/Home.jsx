@@ -48,7 +48,7 @@ function Home() {
   return (
     <div className="home-container">
       {/* hero section with main banner */}
-      <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5">
+      <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5 banner-gradient">
         <div className="container">
           <h1 className="display-4">Revolutionizing Electronics</h1>
           <p className="lead">Find the latest gadgets and accessories that power your life.</p>
