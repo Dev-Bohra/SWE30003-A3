@@ -1,10 +1,14 @@
 .auth-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 90vh;
   background-color: #ffffff;
-  padding: 2rem;
+  padding: 2rem 0 0 0;
+  position: static;
+  height: auto;
+  z-index: 1;
 }
 
 .auth-form {
@@ -15,6 +19,7 @@
   width: 100%;
   max-width: 420px;
   border: 1px solid #e8e8e8;
+  margin-bottom: 2rem;
 }
 
 .auth-form h2 {
@@ -147,28 +152,4 @@
 .switch-link:hover {
   color: #218838;
   text-decoration: underline;
-}
-
-/* Responsive styles */
-@media (max-width: 480px) {
-  .auth-container {
-    padding: 1rem;
-  }
-
-  .auth-form {
-    padding: 1.5rem;
-  }
-
-  .auth-form h2 {
-    font-size: 1.5rem;
-  }
-
-  .form-group input {
-    padding: 0.75rem;
-  }
-
-  .auth-button {
-    padding: 0.75rem;
-    font-size: 0.95rem;
-  }
 } 

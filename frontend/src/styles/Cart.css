@@ -495,23 +495,3 @@ main.container {
   box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
 }
 
-@media (max-width: 768px) {
-  .cart-container {
-    padding: 1rem;
-  }
-
-  .cart-item {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .cart-item-image {
-    margin-right: 0;
-    margin-bottom: 1rem;
-  }
-
-  .cart-item-quantity {
-    justify-content: center;
-  }
-}
-
