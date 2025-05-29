@@ -10,10 +10,11 @@ const selectedBtnStyle = {
 };
 
 function Signup() {
-  const navigate = useNavigate();
-  const { signup, login } = useAuth();
-  const [activeTab, setActiveTab] = useState('login');
-  const [showAdminForm, setShowAdminForm] = useState(false);
+  const navigate = useNavigate(); // For navigation after login/signup
+  const { signup, login } = useAuth(); // Auth context functions
+  const [activeTab, setActiveTab] = useState('login'); // Which tab is active
+  const [showAdminForm, setShowAdminForm] = useState(false); // Show admin form or not
+  // Signup form state
   const [signupData, setSignupData] = useState({
     username: '',
     email: '',
@@ -21,16 +22,19 @@ function Signup() {
     confirmPassword: '',
     role: 'Customer'
   });
+  // Customer login form state
   const [loginData, setLoginData] = useState({
     email: '',
     password: ''
   });
+  // Admin login form state
   const [adminData, setAdminData] = useState({
     username: '',
     password: ''
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState(''); // Error message
 
+  // Handle signup input changes
   const handleSignupChange = (e) => {
     const { name, value } = e.target;
     setSignupData(prev => ({
@@ -39,6 +43,7 @@ function Signup() {
     }));
   };
 
+  // Handle customer login input changes
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
     setLoginData(prev => ({
@@ -47,6 +52,7 @@ function Signup() {
     }));
   };
 
+  // Handle admin login input changes
   const handleAdminChange = (e) => {
     const { name, value } = e.target;
     setAdminData(prev => ({
@@ -55,89 +61,85 @@ function Signup() {
     }));
   };
 
+  // Validate signup form
   const validateSignupForm = () => {
     if (!signupData.username || !signupData.email || !signupData.password || !signupData.confirmPassword) {
       setError('All fields are required');
       return false;
     }
-
     if (signupData.password !== signupData.confirmPassword) {
       setError('Passwords do not match');
       return false;
     }
-
     if (signupData.password.length < 6) {
       setError('Password must be at least 6 characters long');
       return false;
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(signupData.email)) {
       setError('Please enter a valid email address');
       return false;
     }
-
     return true;
   };
 
+  // Handle signup form submit
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
     if (!validateSignupForm()) {
       return;
     }
-
     try {
       await signup(signupData);
-      navigate('/');
+      navigate('/'); // Redirect to home after signup
     } catch (err) {
       setError(err.message);
     }
   };
 
+  // Handle customer login form submit
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
     if (!loginData.email || !loginData.password) {
       setError('All fields are required');
       return;
     }
-
     try {
       await login(loginData.email, loginData.password);
-      navigate('/');
+      navigate('/'); // Redirect to home after login
     } catch (err) {
       setError(err.message);
     }
   };
 
+  // Handle admin login form submit
   const handleAdminSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
     if (!adminData.username || !adminData.password) {
       setError('All fields are required');
       return;
     }
-
     try {
       await login(adminData.username, adminData.password, 'Admin');
-      navigate('/');
+      navigate('/'); // Redirect to home after admin login
     } catch (err) {
       setError(err.message);
     }
   };
 
+  // Render the UI
   return (
     <div className="auth-container">
       <div className="auth-form">
         {error && <div className="error-message">{error}</div>}
-
+        {/* Show form based on active tab */}
         {activeTab === 'signup' ? (
           <form onSubmit={handleSignupSubmit}>
             <h2>Create Account</h2>
+            {/* Username input */}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -149,7 +151,7 @@ function Signup() {
                 placeholder="Enter your username"
               />
             </div>
-
+            {/* Email input */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
@@ -161,7 +163,7 @@ function Signup() {
                 placeholder="Enter your email"
               />
             </div>
-
+            {/* Password input */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
@@ -173,7 +175,7 @@ function Signup() {
                 placeholder="Enter your password"
               />
             </div>
-
+            {/* Confirm password input */}
             <div className="form-group">
               <label htmlFor="confirmPassword">Confirm Password</label>
               <input
@@ -185,7 +187,6 @@ function Signup() {
                 placeholder="Confirm your password"
               />
             </div>
-
             <button type="submit" className="auth-button">Sign Up</button>
             <div className="auth-switch">
               Already have an account? <button type="button" className="switch-link" onClick={() => setActiveTab('login')}>Sign in</button>
@@ -194,6 +195,7 @@ function Signup() {
         ) : (
           <form onSubmit={handleLoginSubmit}>
             <h2>Sign In</h2>
+            {/* Customer/Admin toggle buttons */}
             <div className="d-flex gap-2 mb-3">
               <button
                 type="button"
@@ -212,7 +214,7 @@ function Signup() {
                 Admin
               </button>
             </div>
-
+            {/* Admin login form */}
             {showAdminForm ? (
               <>
                 <div className="form-group">
@@ -226,7 +228,6 @@ function Signup() {
                     placeholder="Enter admin username"
                   />
                 </div>
-
                 <div className="form-group">
                   <label htmlFor="adminPassword">Password</label>
                   <input
@@ -238,7 +239,6 @@ function Signup() {
                     placeholder="Enter admin password"
                   />
                 </div>
-
                 <button type="button" className="auth-button" onClick={handleAdminSubmit}>Sign In as Admin</button>
               </>
             ) : (
@@ -254,7 +254,6 @@ function Signup() {
                     placeholder="Enter your email"
                   />
                 </div>
-
                 <div className="form-group">
                   <label htmlFor="loginPassword">Password</label>
                   <input
@@ -266,7 +265,6 @@ function Signup() {
                     placeholder="Enter your password"
                   />
                 </div>
-
                 <button type="submit" className="auth-button">Sign In</button>
               </>
             )}
