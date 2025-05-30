@@ -1,0 +1,405 @@
+.support-container {
+ max-width: 1200px;
+ margin: 0 auto;
+ padding: 2rem;
+}
+
+
+.support-header {
+ text-align: center;
+ margin-bottom: 3rem;
+}
+
+
+.support-header h1 {
+ font-size: 2.5rem;
+ color: #2c3e50;
+ margin-bottom: 1rem;
+}
+
+
+.support-header p {
+ font-size: 1.1rem;
+ color: #7f8c8d;
+}
+
+
+.support-content {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 2rem;
+ margin-bottom: 3rem;
+}
+
+
+/* Contact Form Styles */
+.contact-section {
+ background: #fff;
+ padding: 2rem;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.contact-section h2 {
+ color: #2c3e50;
+ margin-bottom: 1.5rem;
+}
+
+
+.contact-form {
+ display: flex;
+ flex-direction: column;
+ gap: 1.5rem;
+}
+
+
+.form-group {
+ display: flex;
+ flex-direction: column;
+ gap: 0.5rem;
+}
+
+
+.form-group label {
+ font-weight: 500;
+ color: #34495e;
+}
+
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+ padding: 0.8rem;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ font-size: 1rem;
+ transition: all 0.3s ease;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+ outline: none;
+ border-color: #e67e22;
+ box-shadow: 0 0 0 2px rgba(230, 126, 34, 0.1);
+}
+
+
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+ border-color: #e74c3c;
+}
+
+
+.error-message {
+ color: #e74c3c;
+ font-size: 0.875rem;
+ margin-top: 0.25rem;
+}
+
+
+.submit-error {
+ text-align: center;
+ padding: 0.5rem;
+ background-color: #fadbd8;
+ border-radius: 5px;
+ margin-bottom: 1rem;
+}
+
+
+.submit-btn {
+ background-color: #e67e22;
+ color: white;
+ padding: 1rem;
+ border: none;
+ border-radius: 5px;
+ font-size: 1rem;
+ cursor: pointer;
+ transition: all 0.3s ease;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+}
+
+
+.submit-btn:hover:not(:disabled) {
+ background-color: #d35400;
+}
+
+
+.submit-btn:disabled {
+ background-color: #bdc3c7;
+ cursor: not-allowed;
+}
+
+
+.submit-btn i {
+ font-size: 1.1rem;
+}
+
+
+.submit-btn .spin {
+ animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+ from {
+   transform: rotate(0deg);
+ }
+ to {
+   transform: rotate(360deg);
+ }
+}
+
+
+.thank-you-message {
+ text-align: center;
+ padding: 2rem;
+ background-color: #d5f5e3;
+ border-radius: 10px;
+ color: #27ae60;
+ margin-top: 2.1rem;
+}
+
+
+.thank-you-message i {
+ font-size: 3rem;
+ margin-bottom: 1rem;
+}
+
+
+.thank-you-message h3 {
+ font-size: 1.5rem;
+ margin-bottom: 0.5rem;
+}
+
+
+/* Info Section (Tickets and FAQ) */
+.info-section {
+ display: flex;
+ flex-direction: column;
+ gap: 2rem;
+}
+
+
+/* Tickets Section */
+.tickets-section {
+ background: #fff;
+ padding: 2rem;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.tickets-section h2 {
+ color: #2c3e50;
+ margin-bottom: 1.5rem;
+}
+
+
+.no-tickets {
+ text-align: center;
+ color: #7f8c8d;
+ padding: 2rem;
+}
+
+
+.tickets-list {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+}
+
+
+.ticket-card {
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ padding: 1rem;
+ background-color: #f8f9fa;
+}
+
+
+.ticket-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 1rem;
+}
+
+
+.ticket-header h3 {
+ margin: 0;
+ font-size: 1.1rem;
+ color: #2c3e50;
+}
+
+
+.status-badge {
+ padding: 0.25rem 0.5rem;
+ border-radius: 15px;
+ font-size: 0.875rem;
+ font-weight: 500;
+}
+
+
+.status-badge.open {
+ background-color: #fef9e7;
+ color: #f39c12;
+}
+
+
+.ticket-info {
+ margin-bottom: 1rem;
+}
+
+
+.ticket-info p {
+ margin: 0.25rem 0;
+ color: #7f8c8d;
+}
+
+
+.ticket-message {
+ background-color: #fff;
+ padding: 1rem;
+ border-radius: 5px;
+ border: 1px solid #eee;
+}
+
+
+.ticket-message p {
+ margin: 0;
+ color: #2c3e50;
+ line-height: 1.6;
+}
+
+
+/* FAQ Section */
+.faq-section {
+ background: #fff;
+ padding: 2rem;
+ border-radius: 10px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ margin-top: 2.1rem;
+}
+
+
+.faq-section h2 {
+ color: #2c3e50;
+ margin-bottom: 1.5rem;
+}
+
+
+.faq-list {
+ display: flex;
+ flex-direction: column;
+ gap: 1rem;
+}
+
+
+.faq-item {
+ border: 1px solid #ddd;
+ border-radius: 5px;
+ overflow: hidden;
+}
+
+
+.faq-question {
+ padding: 1rem;
+ background-color: #f8f9fa;
+ cursor: pointer;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ transition: background-color 0.3s ease;
+}
+
+
+.faq-question:hover {
+ background-color: #fef9e7;
+}
+
+
+.faq-question h3 {
+ margin: 0;
+ font-size: 1.1rem;
+ color: #2c3e50;
+}
+
+
+.faq-icon {
+ font-size: 1.5rem;
+ color: #e67e22;
+ font-weight: bold;
+}
+
+
+.faq-answer {
+ padding: 0;
+ max-height: 0;
+ overflow: hidden;
+ transition: all 0.3s ease;
+ background-color: #fff;
+}
+
+
+.faq-item.open .faq-answer {
+ padding: 1rem;
+ max-height: 500px;
+ border-top: 1px solid #eee;
+}
+
+
+.faq-answer p {
+ margin: 0;
+ color: #7f8c8d;
+ line-height: 1.6;
+}
+
+
+/* Support Info Cards */
+.support-info {
+ display: grid;
+ grid-template-columns: repeat(3, 1fr);
+ gap: 2rem;
+ margin-top: 3rem;
+}
+
+
+.info-card {
+ background: #fff;
+ padding: 2rem;
+ border-radius: 10px;
+ text-align: center;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ transition: transform 0.3s ease;
+}
+
+
+.info-card:hover {
+ transform: translateY(-5px);
+}
+
+
+.info-card i {
+ font-size: 2.5rem;
+ color: #e67e22;
+ margin-bottom: 1rem;
+}
+
+
+.info-card h3 {
+ color: #2c3e50;
+ margin-bottom: 1rem;
+}
+
+
+.info-card p {
+ color: #7f8c8d;
+ margin: 0.5rem 0;
+}
