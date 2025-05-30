@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+html, body, #root {
+  height: 100%; /* Ensure full height */
+}
+
 :root {
   --primary-color: #0d6efd;
   --primary-dark: #0a58ca;
@@ -35,22 +39,22 @@ body {
 
 #root {
   width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  height: 100%; /* Ensure #root also takes full height */
+  display: flex; /* Make #root a flex container */
+  flex-direction: column; /* Stack children vertically */
 }
 
-.app-wrapper {
-  min-height: 100vh;
+.app-wrapper { /* Target the correct wrapper div */
+  min-height: calc(100vh - 70px); /* Adjusted for navbar height */
   display: flex;
   flex-direction: column;
+  flex-grow: 1; /* Allow app wrapper to grow and push footer down */
 }
 
-/* Main Content Styles */
-main {
+.main-content {
   flex: 1;
   padding: 2rem 0;
-  background-color: #fff;
+  background-color: #f8f9fa;
 }
 
 /* Navigation Styles */
@@ -104,12 +108,14 @@ main {
 
 /* Button Styles */
 .btn {
-  border-radius: 30px;
   padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 30px;
   font-weight: 500;
   transition: var(--transition);
   text-transform: none;
   letter-spacing: 0.5px;
+  cursor: pointer;
 }
 
 .btn:hover {
@@ -119,11 +125,20 @@ main {
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-  border: none;
+  color: white;
 }
 
 .btn-primary:hover {
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
 }
 
 /* Card Styles */
@@ -152,7 +167,6 @@ main {
 
 /* Footer Styles */
 footer {
-  margin-top: auto;
   background-color: var(--dark-color);
   color: #fff;
   padding: 3rem 0;
@@ -187,4 +201,57 @@ footer {
 
 .shadow-hover:hover {
   box-shadow: var(--box-shadow);
+}
+
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.admin-dashboard h1 {
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.admin-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.admin-content p {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Message Styles */
+.error-message {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+.success-message {
+  color: green;
+  margin-top: 0.5rem;
 }

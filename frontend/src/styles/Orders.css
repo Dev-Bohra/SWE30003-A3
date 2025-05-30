@@ -92,22 +92,6 @@
   background-color: #f8f9fa;
 }
 
-@media (max-width: 768px) {
-  .table th,
-  .table td {
-    font-size: 0.9rem;
-  }
-
-  .list-unstyled li {
-      margin-bottom: 0.1rem;
-  }
-
-   /* Adjust modal for small screens if necessary */
-   .modal-dialog {
-       margin: 1rem; /* Add some margin */
-   }
-}
-
 /* Custom styles for select controls */
 .order-select-control {
   min-width: 150px; /* Adjust minimum width as needed */
