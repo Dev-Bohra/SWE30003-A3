@@ -55,13 +55,15 @@ export const CartProvider = ({ children }) => {
   };
 
   // Update item quantity
-  const updateQuantity = (productId, amount) => {
+  const updateQuantity = (productId, change) => {
     setCartItems(prevItems =>
-      prevItems.map(item =>
-        item._id === productId
-          ? { ...item, quantity: Math.max(0, item.quantity + amount) }
-          : item
-      ).filter(item => item.quantity > 0)
+      prevItems.map(item => {
+        if (item._id === productId) {
+          const newQuantity = item.quantity + change;
+          return newQuantity > 0 ? { ...item, quantity: newQuantity } : item;
+        }
+        return item;
+      })
     );
   };
 
