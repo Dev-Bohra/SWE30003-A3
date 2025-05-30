@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Cart.css';
 import { useCart } from '../context/CartContext';
 
 function Cart() {
-  const { cartItems, total, updateQuantity, removeFromCart } = useCart();
+  const navigate = useNavigate();
+  const { cartItems, total, updateQuantity, removeFromCart, clearCart } = useCart();
   const [showCheckoutForm, setShowCheckoutForm] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -26,10 +29,51 @@ function Cart() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically handle the order submission
-    console.log('Order submitted:', { ...formData, items: cartItems, total });
+    
+    // Create order object
+    const order = {
+      id: Date.now().toString(),
+      date: new Date().toISOString(),
+      status: 'Processing',
+      items: cartItems,
+      total: total,
+      customerInfo: {
+        name: formData.username,
+        email: formData.email,
+        phone: formData.phone,
+        shippingAddress: formData.shippingAddress,
+        city: formData.city,
+        postalCode: formData.postalCode
+      },
+      paymentMethod: formData.paymentMethod
+    };
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Add order to mock database
+      const mockOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+      mockOrders.push(order);
+      localStorage.setItem('orders', JSON.stringify(mockOrders));
+
+      // Show confirmation message
+      setShowConfirmation(true);
+      
+      // Clear cart after successful order
+      clearCart();
+      
+      // Wait for 2 seconds to show the confirmation message
+      setTimeout(() => {
+        // Navigate to orders page
+        navigate('/orders');
+      }, 2000);
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Failed to create order. Please try again.');
+    }
   };
 
   const CheckoutForm = () => (
@@ -247,6 +291,18 @@ function Cart() {
       </form>
     </div>
   );
+
+  if (showConfirmation) {
+    return (
+      <div className="order-confirmation">
+        <div className="confirmation-message">
+          <i className="bi bi-check-circle-fill"></i>
+          <h3>Order Completed Successfully!</h3>
+          <p>Thank you for your purchase. Redirecting to orders page...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main className="container">
