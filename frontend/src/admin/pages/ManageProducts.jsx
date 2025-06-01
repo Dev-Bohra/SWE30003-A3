@@ -80,7 +80,7 @@ function ManageProducts() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newId = P${String(products.length + 1).padStart(3, '0')};
+    const newId = `P${String(products.length + 1).padStart(3, '0')}`;
     const product = {
       id: newId,
       name: newProduct.name,
