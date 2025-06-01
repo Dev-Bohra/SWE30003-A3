@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@
 }
 
 html, body, #root {
-  height: 100%; /* Ensure full height */
+  height: 100%; 
 }
 
 :root {
@@ -39,16 +39,16 @@ body {
 
 #root {
   width: 100%;
-  height: 100%; /* Ensure #root also takes full height */
-  display: flex; /* Make #root a flex container */
-  flex-direction: column; /* Stack children vertically */
+  height: 100%; 
+  display: flex; 
+  flex-direction: column; 
 }
 
-.app-wrapper { /* Target the correct wrapper div */
-  min-height: calc(100vh - 70px); /* Adjusted for navbar height */
+.app-wrapper { 
+  min-height: calc(100vh - 70px); 
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Allow app wrapper to grow and push footer down */
+  flex-grow: 1; 
 }
 
 .main-content {
@@ -57,7 +57,7 @@ body {
   background-color: #f8f9fa;
 }
 
-/* Navigation Styles */
+
 .navbar {
   box-shadow: var(--box-shadow);
   padding: 1rem 0;
@@ -106,7 +106,7 @@ body {
   width: 100%;
 }
 
-/* Button Styles */
+
 .btn {
   padding: 0.5rem 1.5rem;
   border: none;
@@ -141,7 +141,7 @@ body {
   opacity: 0.9;
 }
 
-/* Card Styles */
+
 .card {
   transition: transform 0.2s ease-in-out;
   border: none;
@@ -165,14 +165,14 @@ body {
   color: var(--secondary-color);
 }
 
-/* Footer Styles */
+
 footer {
   background-color: var(--dark-color);
   color: #fff;
   padding: 3rem 0;
 }
 
-/* Animation Classes */
+
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
@@ -188,7 +188,7 @@ footer {
   }
 }
 
-/* Utility Classes */
+
 .text-gradient {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
   -webkit-background-clip: text;
@@ -254,4 +254,44 @@ footer {
 .success-message {
   color: green;
   margin-top: 0.5rem;
+}
+
+.admin-nav {
+  background: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-link {
+  color: #666;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.nav-link:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.main-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }

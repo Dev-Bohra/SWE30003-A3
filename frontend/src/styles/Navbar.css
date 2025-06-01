@@ -59,11 +59,32 @@
 }
 
 .admin-badge {
-  background-color: #4a90e2;
+  background: linear-gradient(45deg, #ff5e62, #8f5eff);
   color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 2px 10px rgba(143, 94, 255, 0.2);
+  border: 2.5px solid #ffe3ec;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(143, 94, 255, 0.3);
+  background: linear-gradient(45deg, #8f5eff, #ff5e62);
+}
+
+.admin-badge::before {
+  content: '👨‍💼';
+  font-size: 1.1rem;
 }
 
 .logout-button {
@@ -211,7 +232,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 20px;
   padding: 0.3rem 0.8rem;
 }

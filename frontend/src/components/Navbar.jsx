@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import '../styles/Navbar.css';
@@ -9,6 +9,7 @@ function Navbar() {
  const { currentUser, logout } = useAuth();
  const { cartItems } = useCart();
  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+ const navigate = useNavigate();
 
 
  return (
@@ -58,11 +59,20 @@ function Navbar() {
            )}
            {currentUser ? (
              <li className="nav-item user-menu">
-               <div className="user-info-display">
-                 <span className="user-icon">👤</span>
-                 <span className="username-text">{currentUser.username}</span>
-               </div>
-               <button className="btn btn-logout" onClick={logout}>Logout</button>
+               {currentUser.role === 'Admin' ? (
+                 <>
+                   <div className="user-info-display">
+                     <button className="admin-badge" onClick={() => navigate('/admin')}>Admin Dashboard</button>
+                   </div>
+                   <button className="btn btn-logout" onClick={logout}>Logout</button>
+                 </>
+               ) : (
+                 <div className="user-info-display">
+                   <span className="user-icon">👤</span>
+                   <span className="username-text">{currentUser.username}</span>
+                   <button className="btn btn-logout" onClick={logout}>Logout</button>
+                 </div>
+               )}
              </li>
            ) : (
              <li className="nav-item">
