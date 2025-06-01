@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
   const login = (email, password, role) => {
     // Mock admin login check
     if (role === 'Admin') {
-      if (email === 'admin' && password === 'password') {
+      if (email === 'admin@com' && password === 'password') {
         const adminUser = {
           username: 'admin',
           role: 'Admin'
