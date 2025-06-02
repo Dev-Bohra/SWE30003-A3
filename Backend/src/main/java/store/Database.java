@@ -187,4 +187,9 @@ public class Database {
         }
         return null;
     }
+
+    public JsonNode loadOrders() {
+        ObjectNode root = readRoot();
+        return root.get("orders"); // guaranteed to be an ArrayNode
+    }
 }

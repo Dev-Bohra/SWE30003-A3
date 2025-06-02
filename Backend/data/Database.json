@@ -59,7 +59,7 @@
   } ],
   "orders" : [ {
     "orderId" : "ORDER-1001",
-    "customerId" : "CUST-001",
+    "customerId" : "jo",
     "items" : [ {
       "sku" : "SKU001",
       "quantity" : 2
@@ -72,7 +72,7 @@
     "createdAt" : "2025-03-01T09:15:00Z"
   }, {
     "orderId" : "ORDER-1002",
-    "customerId" : "CUST-002",
+    "customerId" : "jo",
     "items" : [ {
       "sku" : "SKU003",
       "quantity" : 3
@@ -80,6 +80,26 @@
     "total" : 29.97,
     "status" : "DELIVERED",
     "createdAt" : "2025-03-05T11:00:00Z"
+  }, {
+    "orderId" : "ORDER-1003",
+    "customerId" : "jo",
+    "items" : [ {
+      "sku" : "SKU002",
+      "quantity" : 4
+    } ],
+    "total" : 119.96,
+    "status" : "DELIVERED",
+    "createdAt" : "2025-04-01T10:00:00Z"
+  }, {
+    "orderId" : "ORDER-1004",
+    "customerId" : "jo",
+    "items" : [ {
+      "sku" : "SKU003",
+      "quantity" : 5
+    } ],
+    "total" : 49.95,
+    "status" : "DELIVERED",
+    "createdAt" : "2025-04-05T12:00:00Z"
   } ],
   "supportTickets" : [ {
     "ticketId" : "TKT-5001",

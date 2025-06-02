@@ -2,24 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../styles/Home.css';
+import { fetchPopularProducts } from '../api/inventoryApi';
 
 function Home() {
-  // get addToCart function from our cart context
   const { addToCart } = useCart();
-
-  // State for “featured” products—we’ll simply load the first N from inventory
   const [featured, setFeatured] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/inventory')
-        .then((res) => {
-          if (!res.ok) throw new Error('Failed to load inventory');
-          return res.json();
-        })
+    fetchPopularProducts() // fetch top 3 most‐sold, in‐stock items
         .then((data) => {
-          // pick, say, the first 3 items (or based on stock)
-          // map to the shape Home expects (_id, name, category, price, image)
-          const mapped = data.slice(0, 3).map((p) => ({
+          // data = array of Product objects: { sku, name, description, price, category: [...], stock, ... }
+          // Map each to the shape Home expects:
+          const mapped = data.map((p) => ({
             _id: p.sku,
             name: p.name,
             category: Array.isArray(p.category) ? p.category.join(', ') : '',
@@ -28,7 +22,9 @@ function Home() {
           }));
           setFeatured(mapped);
         })
-        .catch((err) => console.error('Error fetching featured:', err));
+        .catch((err) => {
+          console.error('Error fetching popular products:', err);
+        });
   }, []);
 
   const handleAddToCart = (product) => {
@@ -37,7 +33,7 @@ function Home() {
 
   return (
       <div className="home-container">
-        {/* hero section with main banner */}
+        {/* Hero/banner */}
         <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5 banner-gradient">
           <div className="container">
             <h1 className="display-4">Revolutionizing Electronics</h1>
@@ -51,41 +47,46 @@ function Home() {
         </div>
 
         <main className="container mt-5">
-          {/* featured products section */}
-          <h2 className="text-center mb-4">Featured Products</h2>
+          {/* Featured (most popular) products */}
+          <h2 className="text-center mb-4">Most Popular In‐Stock</h2>
           <p className="text-center mb-5 text-muted">
-            Discover our top-selling gadgets and must-have accessories.
+            These items sell out fast—grab yours while in stock!
           </p>
 
-          {/* product grid */}
           <div className="row">
-            {featured.map((product) => (
-                <div className="col-md-4 mb-4" key={product._id}>
-                  <div className="card h-100">
-                    <img
-                        src={product.image}
-                        alt={product.name}
-                        className="card-img-top"
-                    />
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{product.name}</h5>
-                      <p className="card-text text-muted">{product.category}</p>
-                      <p className="card-text fw-bold">
-                        ${product.price.toFixed(2)}
-                      </p>
-                      <button
-                          className="btn mt-auto"
-                          onClick={() => handleAddToCart(product)}
-                      >
-                        Add to Cart
-                      </button>
+            {featured.length > 0 ? (
+                featured.map((product) => (
+                    <div className="col-md-4 mb-4" key={product._id}>
+                      <div className="card h-100">
+                        <img
+                            src={product.image}
+                            alt={product.name}
+                            className="card-img-top"
+                        />
+                        <div className="card-body d-flex flex-column">
+                          <h5 className="card-title">{product.name}</h5>
+                          <p className="card-text text-muted">{product.category}</p>
+                          <p className="card-text fw-bold">
+                            ${product.price.toFixed(2)}
+                          </p>
+                          <button
+                              className="btn mt-auto"
+                              onClick={() => handleAddToCart(product)}
+                          >
+                            Add to Cart
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-            ))}
+                ))
+            ) : (
+                <p className="text-center text-muted">
+                  No popular products available right now.
+                </p>
+            )}
           </div>
 
-          {/* promo banner */}
+          {/* Promo banner (unchanged) */}
           <div className="row mt-5 mb-5">
             <div className="col-12">
               <div className="bg-primary text-white text-center py-4 rounded">

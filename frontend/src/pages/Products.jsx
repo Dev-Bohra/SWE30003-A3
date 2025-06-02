@@ -1,30 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from '../components/ProductCard';
 import '../styles/Products.css';
+import { fetchAllProducts } from '../api/inventoryApi';
 
 function Products() {
-  // State: products fetched from backend, plus filtered subset
   const [search, setSearch] = useState('');
-  const [products, setProducts] = useState([]);        // initially empty
+  const [products, setProducts] = useState([]);         // will hold all inventory products
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // 1) Fetch product list once on mount
   useEffect(() => {
-    fetch('http://localhost:8080/api/inventory')
-        .then((res) => {
-          if (!res.ok) throw new Error('Failed to load inventory');
-          return res.json();
-        })
+    fetchAllProducts()
         .then((data) => {
-          // data is an array of { sku, name, description, price, category: [...], stock }
-          // We’ll map it into objects matching ProductCard’s expected props:
+          // data = array of Product: { sku, name, description, price, category: [...], stock, ... }
+          // Map each to what ProductCard expects:
           const mapped = data.map((p) => ({
             _id: p.sku,
             name: p.name,
             category: Array.isArray(p.category) ? p.category.join(', ') : '',
             price: p.price,
             image: p.imageUrl || 'https://via.placeholder.com/300',
-            // note: if your Product class has no image field, we can show placeholder
             stock: p.stock,
             description: p.description
           }));
@@ -36,7 +30,7 @@ function Products() {
         });
   }, []);
 
-  // 2) Filter whenever 'search' or `products` change
+  // Filter whenever `search` or `products` change
   useEffect(() => {
     setFilteredProducts(
         products.filter((product) =>

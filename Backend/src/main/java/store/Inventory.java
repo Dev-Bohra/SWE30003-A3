@@ -1,5 +1,8 @@
 package store;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -103,5 +106,41 @@ public class Inventory {
         boolean removed = all.removeIf(p -> p.getSku().equals(sku));
         if (!removed) throw new IllegalArgumentException("Unknown SKU: " + sku);
         db.saveInventory(all);
+    }
+
+    public List<Product> getPopularProducts() {
+        // 1) Fetch raw "orders" array from Database.json
+        JsonNode ordersNode = db.loadOrders();
+        Map<String, Integer> soldCount = new HashMap<>();
+
+        if (ordersNode != null && ordersNode.isArray()) {
+            for (JsonNode orderNode : ordersNode) {
+                JsonNode itemsNode = orderNode.get("items");
+                if (itemsNode != null && itemsNode.isArray()) {
+                    for (JsonNode itemNode : itemsNode) {
+                        String sku = itemNode.get("sku").asText();
+                        int qty  = itemNode.get("quantity").asInt();
+                        soldCount.put(sku, soldCount.getOrDefault(sku, 0) + qty);
+                    }
+                }
+            }
+        }
+
+        // 2) Get all in-stock products
+        List<Product> inStock = getProducts().values().stream()
+                .filter(p -> p.getStock() > 0)
+                .collect(Collectors.toList());
+
+        // 3) Sort in-stock by soldCount descending (default to 0 if never sold)
+        inStock.sort((a, b) -> {
+            int countA = soldCount.getOrDefault(a.getSku(), 0);
+            int countB = soldCount.getOrDefault(b.getSku(), 0);
+            return Integer.compare(countB, countA);
+        });
+
+        // 4) Return top 3 (or fewer if less than 3 exist)
+        return inStock.stream()
+                .limit(3)
+                .collect(Collectors.toList());
     }
 }
