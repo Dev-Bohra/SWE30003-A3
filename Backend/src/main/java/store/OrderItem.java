@@ -1,4 +1,4 @@
-package Store;
+package store;
 
 /**
  * Immutable detail of a CartItem for an Order.

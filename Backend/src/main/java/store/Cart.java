@@ -1,8 +1,7 @@
 // src/main/java/Store/Cart.java
-package Store;
+package store;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Holds the customer's selected products and can spin up an Order.

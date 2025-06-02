@@ -1,5 +1,5 @@
 // Notify.java
-package Store;
+package store;
 
 /**
  * «interface» Notify

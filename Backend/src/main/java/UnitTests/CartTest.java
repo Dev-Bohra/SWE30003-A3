@@ -1,7 +1,7 @@
 package UnitTests;
 
-import Store.*;
-import Store.Order;
+import store.*;
+import store.Order;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -34,7 +34,7 @@ class CartTest {
             f.setAccessible(true);
             f.set(null, null);
             // also reset Database singleton
-            Class<?> dbCls = Class.forName("Store.Database");
+            Class<?> dbCls = Class.forName("store.Database");
             Field dbField = dbCls.getDeclaredField("instance");
             dbField.setAccessible(true);
             dbField.set(null, null);

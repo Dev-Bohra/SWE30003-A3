@@ -1,4 +1,4 @@
-package Store;
+package store;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

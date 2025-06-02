@@ -1,5 +1,5 @@
 // PaymentGateway.java
-package Store;
+package store;
 
 /**
  * «interface» PaymentGateway

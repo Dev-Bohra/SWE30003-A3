@@ -1,4 +1,4 @@
-package Store;
+package store;
 
 /**
  * Stubbed gateway that always succeeds.

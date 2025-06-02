@@ -1,5 +1,5 @@
 // SupportTicket.java
-package Store;
+package store;
 
 /**
  * captures customer service requests

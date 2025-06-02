@@ -1,6 +1,7 @@
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/Invoice.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/Main.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/Payment.java
+/Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/CorsConfig.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/CartItem.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/UnitTests/FeedbackTest.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/Store/StubAuthService.java

@@ -1,5 +1,5 @@
 // Authentication.java
-package Store;
+package store;
 
 /**
  * «interface» Authentication

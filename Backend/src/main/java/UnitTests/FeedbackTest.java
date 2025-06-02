@@ -1,8 +1,8 @@
 // FeedbackTest.java
 package UnitTests;
 
-import Store.Database;
-import Store.Feedback;
+import store.Database;
+import store.Feedback;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 

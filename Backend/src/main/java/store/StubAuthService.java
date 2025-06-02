@@ -1,5 +1,5 @@
 // StubAuthService.java
-package Store;
+package store;
 
 /**
  * Stub implementation of Authentication.

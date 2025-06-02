@@ -1,7 +1,7 @@
 // ProductTest.java
 package UnitTests;
 
-import Store.Product;
+import store.Product;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
