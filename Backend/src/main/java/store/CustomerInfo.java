@@ -2,6 +2,9 @@ package store;
 
 import java.util.Objects;
 
+/**
+ * Immutable record holding the four core customer fields.
+ */
 public record CustomerInfo(String id, String firstName, String lastName, String email) {
     public CustomerInfo {
         Objects.requireNonNull(id, "id required");
@@ -10,3 +13,4 @@ public record CustomerInfo(String id, String firstName, String lastName, String 
         Objects.requireNonNull(email, "email required");
     }
 }
+

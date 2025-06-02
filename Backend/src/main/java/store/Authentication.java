@@ -1,9 +1,8 @@
-// Authentication.java
 package store;
 
 /**
- * «interface» Authentication
+ * Interface for Authentication services.
  */
 public interface Authentication {
-    boolean login(String username, String password);
+    boolean login(String email, String password);
 }

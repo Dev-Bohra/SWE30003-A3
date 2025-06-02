@@ -3,15 +3,17 @@ package store;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
     private static Database instance;
-    private Path dbPath;
+    private final Path dbPath;
     private final ObjectMapper mapper = new ObjectMapper();
 
     private Database(String dbFilepath) {
@@ -37,24 +39,36 @@ public class Database {
 
     private synchronized ObjectNode readRoot() {
         try {
+            ObjectNode root;
+
             if (Files.notExists(dbPath)) {
-                ObjectNode root = mapper.createObjectNode();
-                root.putArray("inventory");
-                root.putArray("feedback");
-                // ensure parent dirs
-                Files.createDirectories(dbPath.getParent());
-                mapper.writerWithDefaultPrettyPrinter()
-                        .writeValue(dbPath.toFile(), root);
-                return root;
+                // create empty DB file with all expected arrays
+                root = mapper.createObjectNode();
+            } else {
+                JsonNode node = mapper.readTree(dbPath.toFile());
+                if (!node.isObject()) throw new IOException("Invalid DB format");
+                root = (ObjectNode) node;
             }
-            JsonNode node = mapper.readTree(dbPath.toFile());
-            if (!node.isObject()) throw new IOException("Invalid DB format");
-            ObjectNode root = (ObjectNode) node;
-            if (!root.has("inventory")) root.putArray("inventory");
-            if (!root.has("feedback")) root.putArray("feedback");
+
+            // Ensure all required top-level tables exist
+            ensureArray(root, "inventory");
+            ensureArray(root, "feedback");
+            ensureArray(root, "customers");
+            ensureArray(root, "orders");
+            ensureArray(root, "supportTickets");
+
+            // Write back in case anything was missing
+            writeRoot(root);
             return root;
+
         } catch (IOException e) {
             throw new RuntimeException("Failed to read database", e);
+        }
+    }
+
+    private void ensureArray(ObjectNode root, String key) {
+        if (!root.has(key) || !root.get(key).isArray()) {
+            root.putArray(key);
         }
     }
 
@@ -117,5 +131,60 @@ public class Database {
         all.add(fb);
         root.set("feedback", mapper.valueToTree(all));
         writeRoot(root);
+    }
+
+    // --- Customer methods ---
+
+    /**
+     * Persist a new customer (with an initial empty cart).
+     */
+    public void addCustomer(Customer customer) {
+        ObjectNode root = readRoot();
+        ArrayNode all = (ArrayNode) root.get("customers");
+
+        ObjectNode customerNode = mapper.createObjectNode();
+        customerNode.put("id", customer.getCustomerInfo().id());
+        customerNode.put("firstName", customer.getCustomerInfo().firstName());
+        customerNode.put("lastName", customer.getCustomerInfo().lastName());
+        customerNode.put("email", customer.getCustomerInfo().email());
+        customerNode.set("cart", mapper.valueToTree(customer.getCart()));
+
+        all.add(customerNode);
+        writeRoot(root);
+    }
+
+    /**
+     * Load all customers (reconstructing Customer from JSON).
+     */
+    public List<Customer> loadCustomers() {
+        ObjectNode root = readRoot();
+        JsonNode raw = root.get("customers");
+
+        List<Customer> customers = new ArrayList<>();
+        for (JsonNode node : raw) {
+            String id = node.get("id").asText();
+            String firstName = node.get("firstName").asText();
+            String lastName = node.get("lastName").asText();
+            String email = node.get("email").asText();
+
+            Cart cart = node.has("cart") && !node.get("cart").isNull()
+                    ? mapper.convertValue(node.get("cart"), Cart.class)
+                    : new Cart();
+
+            customers.add(new Customer(id, firstName, lastName, email, cart, new StubAuthService()));
+        }
+        return customers;
+    }
+
+    /**
+     * Return a Customer by email, or null if not found.
+     */
+    public Customer getCustomerByEmail(String email) {
+        for (Customer c : loadCustomers()) {
+            if (c.getCustomerInfo().email().equalsIgnoreCase(email)) {
+                return c;
+            }
+        }
+        return null;
     }
 }

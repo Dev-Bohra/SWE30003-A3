@@ -22,7 +22,6 @@ public class Customer {
         this.customerInfo = new CustomerInfo(this.id, firstName, lastName, email);
         this.cart = cart;
         this.auth = auth;
-
     }
 
     public boolean login(String user, String pw) {
@@ -31,6 +30,10 @@ public class Customer {
 
     public List<Product> browseProducts() {
         return Database.getInstance().loadInventory();
+    }
+
+    public CustomerInfo getCustomerInfo() {
+        return this.customerInfo;
     }
 
     public Cart getCart() {
