@@ -29,6 +29,10 @@ public class Customer {
         return auth.login(user, pw);
     }
 
+    public String getRole()
+    {
+        return "Customer";
+    }
     public List<Product> browseProducts() {
         return Database.getInstance().loadInventory();
     }
