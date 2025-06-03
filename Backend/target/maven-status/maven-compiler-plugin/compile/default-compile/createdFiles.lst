@@ -5,8 +5,11 @@ store/CustomerInfo.class
 store/Cart.class
 store/StubPaymentGateway.class
 store/Payment.class
+store/controllers/InventoryController.class
 store/Inventory.class
+store/Product.class
 store/Order.class
+UnitTests/ProductTest.class
 store/CartItem.class
 store/CorsConfig$1.class
 UnitTests/FeedbackTest.class

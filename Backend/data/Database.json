@@ -5,21 +5,24 @@
     "description" : "High-quality widget for all purposes",
     "price" : 19.99,
     "category" : [ "tools", "gadgets" ],
-    "stock" : 95
+    "stock" : 8,
+    "available" : true
   }, {
     "sku" : "SKU002",
     "name" : "Gadget B",
     "description" : "Multi-purpose gadget with advanced features",
     "price" : 29.99,
     "category" : [ "electronics", "home" ],
-    "stock" : 41
+    "stock" : 289,
+    "available" : true
   }, {
     "sku" : "SKU003",
     "name" : "Device C",
     "description" : "Compact device for everyday tasks",
     "price" : 9.99,
     "category" : [ "office", "accessories" ],
-    "stock" : 0
+    "stock" : 36,
+    "available" : true
   } ],
   "feedback" : [ {
     "orderId" : "ORDER-1001",
@@ -176,5 +179,141 @@
     "total" : 19.98,
     "status" : "PAID",
     "createdAt" : "2025-06-03T06:15:05.433997Z"
+  }, {
+    "orderId" : "4d082e36-0f07-4de5-b5a6-2c3215939cf6",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU001",
+        "name" : "Widget A",
+        "price" : 19.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 19.99,
+      "totalPrice" : 19.99
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "credit_card",
+    "total" : 19.99,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T07:15:38.532821Z"
+  }, {
+    "orderId" : "9ccf5de4-d526-4c2a-82b5-e0041f930a1a",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU002",
+        "name" : "Gadget B",
+        "price" : 29.99
+      },
+      "quantity" : 2,
+      "unitPrice" : 29.99,
+      "totalPrice" : 59.98
+    }, {
+      "product" : {
+        "sku" : "SKU001",
+        "name" : "Widget A",
+        "price" : 19.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 19.99,
+      "totalPrice" : 19.99
+    } ],
+    "shippingAddress" : "1234",
+    "city" : "123123",
+    "postalCode" : "123123",
+    "paymentMethod" : "paypal",
+    "total" : 79.97,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T07:17:11.924052Z"
+  }, {
+    "orderId" : "c0a7bf7a-7d45-434a-9209-f374e6c8996d",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 9.99,
+      "totalPrice" : 9.99
+    }, {
+      "product" : {
+        "sku" : "SKU001",
+        "name" : "Widget A",
+        "price" : 19.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 19.99,
+      "totalPrice" : 19.99
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "paypal",
+    "total" : 29.98,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T12:05:09.811021Z"
+  }, {
+    "orderId" : "ab452339-58b2-41d2-8e73-3dd88014e148",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 2,
+      "unitPrice" : 9.99,
+      "totalPrice" : 19.98
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "paypal",
+    "total" : 19.98,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T12:08:45.280625Z"
+  }, {
+    "orderId" : "6f660212-1a5f-4347-b6b1-c2f2a1889f2a",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 9.99,
+      "totalPrice" : 9.99
+    }, {
+      "product" : {
+        "sku" : "SKU001",
+        "name" : "Widget A",
+        "price" : 19.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 19.99,
+      "totalPrice" : 19.99
+    }, {
+      "product" : {
+        "sku" : "SKU002",
+        "name" : "Gadget B",
+        "price" : 29.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 29.99,
+      "totalPrice" : 29.99
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "credit_card",
+    "total" : 59.97,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T12:39:04.753944Z"
   } ]
 }

@@ -2,6 +2,7 @@ package store;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import javax.management.Notification;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ public class Inventory {
     }
 
     /**
-     * SKU → Product map for tests/UI
+     * SKU -> Product map for tests/UI
      */
     public Map<String, Product> getProducts() {
         return db.loadInventory().stream()
@@ -71,16 +72,26 @@ public class Inventory {
         }
     }
 
+    public Product toggleProductStatus(String sku){
+       Product updatedProduct = getProduct(sku).toggleAvailable();
+       db.saveInventory(db.loadInventory());
+       updateProduct(updatedProduct);
+       return updatedProduct;
+    }
+
     /**
-     * Admin: adjust stock by delta and notify
+     * Admin: adjust stock
      */
-    public void updateStock(String sku, int delta) {
-        int oldQty = db.getStock(sku);
-        int newQty = oldQty + delta;
+    public void restockProduct(String sku, int newQty) {
         if (newQty < 0) throw new IllegalArgumentException("Resulting stock < 0");
         db.updateStock(sku, newQty);
     }
 
+    public void addProduct(Product product) {
+        List<Product> all = db.loadInventory();
+        all.add(product);
+        db.saveInventory(all);
+    }
     /**
      * Persist arbitrary changes to a Product (e.g. category list).
      */

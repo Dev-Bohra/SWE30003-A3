@@ -12,6 +12,7 @@ public class Product {
     private final double price;
     private final List<String> category;
     private int stock;
+    boolean available;
 
     @JsonCreator
     public Product(
@@ -20,7 +21,8 @@ public class Product {
             @JsonProperty("description") String description,
             @JsonProperty("price") double price,
             @JsonProperty("category") List<String> category,
-            @JsonProperty("stock") int stock
+            @JsonProperty("stock") int stock,
+            @JsonProperty("available") boolean available
     ) {
         if (sku == null || sku.isEmpty())
             throw new IllegalArgumentException("SKU required");
@@ -45,8 +47,18 @@ public class Product {
         if (stock < 0)
             throw new IllegalArgumentException("Stock ≥ 0");
         this.stock = stock;
+
+        this.available = available;
     }
 
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public Product toggleAvailable() {
+        this.available = !this.available;
+        return this;
+    }
     public String getSku() {
         return sku;
     }

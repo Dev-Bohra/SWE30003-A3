@@ -13,8 +13,9 @@ function Home() {
     fetchPopularProducts()
         .then((data) => {
           // data = [ { _id, sku, name, description, price, category: [...], imageUrl, … }, … ]
-          const mapped = data.map((p) => ({
-            _id: p._id,
+            const mapped = data
+                .filter((p) => p.available !== false)
+                .map((p) => ({
             sku: p.sku,
             name: p.name,
             description: p.description,
@@ -47,7 +48,7 @@ function Home() {
             ) : (
                 <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                   {featured.map((product) => (
-                      <div className="col" key={product._id}>
+                      <div className="col" key={product.sku}>
                         <ProductCard product={product} addToCart={addToCart} />
                       </div>
                   ))}

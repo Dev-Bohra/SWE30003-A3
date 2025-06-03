@@ -59,8 +59,8 @@ class InventoryPersistenceTest {
     }
 
     @Test
-    void testPurchaseAndReload() throws IOException {
-        inventory.updateStock("p1", -2);
+    void testRestockAndReload() throws IOException {
+        inventory.restockProduct("p1", 8);
         assertEquals(8, inventory.getProducts().get("p1").getStock());
 
         ObjectMapper mapper = new ObjectMapper();

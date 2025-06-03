@@ -1,4 +1,3 @@
-// src/pages/Products.jsx
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import "../styles/Products.css";
@@ -13,9 +12,10 @@ function Products() {
         fetchAllProducts()
             .then((data) => {
                 // data = [ { sku, name, description, price, category: [...], stock, imageUrl, … }, … ]
-                const mapped = data.map((p) => ({
-                    sku:         p.sku,              // ◀ Add `sku` here
-                    _id:         p.sku,              // keep _id if you use it as React key
+                const mapped = data
+                    .filter((p) => p.available !== false)
+                    .map((p) => ({
+                    sku:         p.sku,
                     name:        p.name,
                     category:    Array.isArray(p.category) ? p.category.join(", ") : "",
                     price:       p.price,
@@ -53,7 +53,7 @@ function Products() {
             ) : (
                 <div className="row row-cols-1 row-cols-md-3 g-4">
                     {filteredProducts.map((product) => (
-                        <div className="col" key={product._id}>
+                        <div className="col" key={product.sku}>
                             <ProductCard product={product} />
                         </div>
                     ))}
@@ -64,4 +64,3 @@ function Products() {
 }
 
 export default Products;
-
