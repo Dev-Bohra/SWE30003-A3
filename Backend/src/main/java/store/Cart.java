@@ -1,4 +1,4 @@
-// src/main/java/Store/Cart.java
+// src/main/java/store/Cart.java
 package store;
 
 import java.util.*;
@@ -26,6 +26,39 @@ public class Cart {
         items.add(temp);
     }
 
+    public void subtractItem(String sku, int quantity) {
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity to subtract must be > 0");
+        }
+
+        CartItem foundItem = null;
+        for (CartItem ci : items) {
+            if (ci.getProduct().getSku().equals(sku)) {
+                foundItem = ci;
+                break;
+            }
+        }
+
+        if (foundItem == null) {
+            throw new NoSuchElementException("Item not in cart: " + sku);
+        }
+
+        int currentQty = foundItem.getQuantity();
+        if (quantity > currentQty) {
+            throw new IllegalArgumentException(
+                    "Cannot subtract more than existing quantity (" + currentQty + ")");
+        }
+
+        int newQty = currentQty - quantity;
+        if (newQty <= 0) {
+            // Remove entirely
+            items.remove(foundItem);
+        } else {
+            // Simply reduce
+            foundItem.setQuantity(newQty);
+        }
+    }
+
     public void removeItem(String sku) {
         boolean removed = items.removeIf(ci -> ci.getProduct().getSku().equals(sku));
         if (!removed) {
@@ -51,17 +84,34 @@ public class Cart {
 
     /**
      * Spins up an Order wired with the POC stubs/singletons.
-     * Now passes List<CartItem> directly (matches Order ctor).
+     * Now passes all four shipping/payment fields as required by the new Order(...) constructor.
+     *
+     * @param customerInfo    the customer placing this order
+     * @param shippingAddress street address for shipping
+     * @param city            city for shipping
+     * @param postalCode      postal code for shipping
+     * @param paymentMethod   e.g. "credit_card", "paypal"
+     * @return a new Order instance, ready for checkout()
      */
-    public Order initiateOrder(CustomerInfo customerInfo) {
+    public Order initiateOrder(
+            CustomerInfo customerInfo,
+            String shippingAddress,
+            String city,
+            String postalCode,
+            String paymentMethod
+    ) {
         Inventory inventory = Inventory.getInstance();
         Payment payment = new Payment(new StubPaymentGateway());
 
         return new Order(
-                customerInfo,
-                items,
-                inventory,
-                payment
+                customerInfo,       // CustomerInfo
+                items,              // List<CartItem>
+                inventory,          // Inventory singleton
+                payment,            // Payment stub
+                shippingAddress,    // String shippingAddress
+                city,               // String city
+                postalCode,         // String postalCode
+                paymentMethod       // String paymentMethod
         );
     }
 }

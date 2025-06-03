@@ -16,6 +16,9 @@ public class OrderItem {
         this.totalPrice = ci.getSubtotal();
     }
 
+    public String getSku(){
+        return product.getSku();
+    }
     public Product getProduct() {
         return product;
     }

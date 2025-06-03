@@ -85,7 +85,7 @@ class CartTest {
         int start = inventory.getProducts().get(sku).getStock();
 
         cart.addItem(inventory.getProducts().get(sku), 2);
-        Order order = cart.initiateOrder(customerInfo);
+        Order order = cart.initiateOrder(customerInfo, "123 main st", "melb", "3088", "paypal");
         order.checkout();
 
         assertEquals(start - 2, inventory.getProducts().get(sku).getStock());
@@ -95,7 +95,7 @@ class CartTest {
     void testOrderConfirmPersistsToJson() throws IOException {
         String sku = "p2";
         cart.addItem(inventory.getProducts().get(sku), 1);
-        Order order = cart.initiateOrder(customerInfo);
+        Order order = cart.initiateOrder(customerInfo, "123 main st", "melb", "3088", "paypal");
         order.checkout();
 
         // read back the JSON file

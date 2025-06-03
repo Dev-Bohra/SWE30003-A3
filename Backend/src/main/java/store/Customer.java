@@ -1,3 +1,4 @@
+// src/main/java/store/Customer.java
 package store;
 
 import java.util.Collections;
@@ -40,8 +41,30 @@ public class Customer {
         return cart;
     }
 
-    public Order placeOrder() {
-        Order o = cart.initiateOrder(customerInfo);
+    /**
+     * Place an order using the Cart. Must pass shipping & payment info.
+     *
+     * @param shippingAddress street address for shipping
+     * @param city            city for shipping
+     * @param postalCode      postal code for shipping
+     * @param paymentMethod   e.g. "credit_card", "paypal"
+     * @return a fully‐constructed Order which has not yet been persisted
+     */
+    public Order placeOrder(
+            String shippingAddress,
+            String city,
+            String postalCode,
+            String paymentMethod
+    ) {
+        // Delegate to Cart.initiateOrder(...)
+        Order o = cart.initiateOrder(
+                this.customerInfo,
+                shippingAddress,
+                city,
+                postalCode,
+                paymentMethod
+        );
+        // Run the “checkout” workflow (verify stock, payment, invoice, shipment, etc.)
         o.checkout();
         return o;
     }

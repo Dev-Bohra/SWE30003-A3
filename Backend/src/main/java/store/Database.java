@@ -134,47 +134,108 @@ public class Database {
     }
 
     // --- Customer methods ---
-
     /**
-     * Persist a new customer (with an initial empty cart).
+     * Find a Customer by their ID. Returns null if not found.
      */
+    public Customer getCustomerById(String id) {
+        for (Customer c : loadCustomers()) {
+            if (c.getCustomerInfo().id().equals(id)) {
+                return c;
+            }
+        }
+        return null;
+    }
+
     public void addCustomer(Customer customer) {
         ObjectNode root = readRoot();
-        ArrayNode all = (ArrayNode) root.get("customers");
+        ArrayNode allCust = (ArrayNode) root.get("customers");
 
-        ObjectNode customerNode = mapper.createObjectNode();
-        customerNode.put("id", customer.getCustomerInfo().id());
-        customerNode.put("firstName", customer.getCustomerInfo().firstName());
-        customerNode.put("lastName", customer.getCustomerInfo().lastName());
-        customerNode.put("email", customer.getCustomerInfo().email());
-        customerNode.set("cart", mapper.valueToTree(customer.getCart()));
+        ObjectNode custNode = mapper.createObjectNode();
+        custNode.put("id", customer.getCustomerInfo().id());
+        custNode.put("firstName", customer.getCustomerInfo().firstName());
+        custNode.put("lastName",  customer.getCustomerInfo().lastName());
+        custNode.put("email",     customer.getCustomerInfo().email());
 
-        all.add(customerNode);
+        // Serialize cart: let Jackson turn each CartItem into { product: {...}, quantity: x, subtotal: y }
+        ObjectNode cartNode = mapper.createObjectNode();
+        ArrayNode itemsArr = mapper.createArrayNode();
+        for (CartItem ci : customer.getCart().getItems()) {
+            // mapper.valueToTree(ci) produces a JSON object with fields "product", "quantity", "subtotal"
+            itemsArr.add(mapper.valueToTree(ci));
+        }
+        cartNode.set("items", itemsArr);
+        custNode.set("cart", cartNode);
+
+        allCust.add(custNode);
         writeRoot(root);
     }
 
     /**
-     * Load all customers (reconstructing Customer from JSON).
+     * Load all customers, reconstructing each Cart by reading full CartItem JSON nodes.
      */
     public List<Customer> loadCustomers() {
         ObjectNode root = readRoot();
-        JsonNode raw = root.get("customers");
-
+        ArrayNode allCustRaw = (ArrayNode) root.get("customers");
         List<Customer> customers = new ArrayList<>();
-        for (JsonNode node : raw) {
-            String id = node.get("id").asText();
-            String firstName = node.get("firstName").asText();
-            String lastName = node.get("lastName").asText();
-            String email = node.get("email").asText();
 
-            Cart cart = node.has("cart") && !node.get("cart").isNull()
-                    ? mapper.convertValue(node.get("cart"), Cart.class)
-                    : new Cart();
+        for (JsonNode node : allCustRaw) {
+            JsonNode idNode    = node.get("id");
+            JsonNode fnNode    = node.get("firstName");
+            JsonNode lnNode    = node.get("lastName");
+            JsonNode emailNode = node.get("email");
 
-            customers.add(new Customer(id, firstName, lastName, email, cart, new StubAuthService()));
+            if (idNode == null || fnNode == null || lnNode == null || emailNode == null) {
+                System.err.println("Warning: skipping malformed customer entry: " + node.toString());
+                continue;
+            }
+
+            String id        = idNode.asText();
+            String firstName = fnNode.asText();
+            String lastName  = lnNode.asText();
+            String email     = emailNode.asText();
+
+            // Reconstruct Cart by iterating over each full CartItem JSON
+            Cart cart = new Cart();
+            JsonNode cartNode = node.get("cart");
+            if (cartNode != null && cartNode.has("items")) {
+                for (JsonNode ciN : cartNode.get("items")) {
+                    // Extract the nested "product" node and "quantity"
+                    JsonNode productNode = ciN.get("product");
+                    JsonNode qtyNode     = ciN.get("quantity");
+
+                    if (productNode == null || qtyNode == null) {
+                        System.err.println("Warning: skipping malformed CartItem: " + ciN.toString());
+                        continue;
+                    }
+
+                    // Convert productNode → Product
+                    Product p = mapper.convertValue(productNode, Product.class);
+                    int quantity = qtyNode.asInt();
+
+                    // Use existing CartItem constructor (quantity > 0)
+                    try {
+                        cart.addItem(p, quantity);
+                    } catch (IllegalArgumentException e) {
+                        System.err.println("Warning: cannot add CartItem for sku="
+                                + p.getSku() + " qty=" + quantity);
+                    }
+                }
+            }
+
+            Customer c = new Customer(
+                    id,
+                    firstName,
+                    lastName,
+                    email,
+                    cart,
+                    new StubAuthService()
+            );
+            customers.add(c);
         }
+
         return customers;
     }
+
 
     /**
      * Return a Customer by email, or null if not found.
@@ -188,8 +249,88 @@ public class Database {
         return null;
     }
 
+    /**
+     * Persist the updated Cart for a given user, writing full CartItem JSON for each item.
+     */
+    public void updateCustomerCart(String userId, Cart cart) {
+        ObjectNode root = readRoot();
+        ArrayNode allCustRaw = (ArrayNode) root.get("customers");
+
+        for (int i = 0; i < allCustRaw.size(); i++) {
+            JsonNode node = allCustRaw.get(i);
+            JsonNode idNode = node.get("id");
+            if (idNode != null && idNode.asText().equals(userId)) {
+                ObjectNode custNode = mapper.createObjectNode();
+                custNode.put("id",       node.get("id").asText());
+                custNode.put("firstName",node.get("firstName").asText());
+                custNode.put("lastName", node.get("lastName").asText());
+                custNode.put("email",    node.get("email").asText());
+
+                // Build a brand‐new "cart" node containing full CartItem JSON
+                ObjectNode cartNode = mapper.createObjectNode();
+                ArrayNode itemsArr = mapper.createArrayNode();
+                for (CartItem ci : cart.getItems()) {
+                    itemsArr.add(mapper.valueToTree(ci));
+                }
+                cartNode.set("items", itemsArr);
+
+                custNode.set("cart", cartNode);
+                allCustRaw.set(i, custNode);
+                writeRoot(root);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Unknown customer ID: " + userId);
+    }
+
     public JsonNode loadOrders() {
         ObjectNode root = readRoot();
         return root.get("orders"); // guaranteed to be an ArrayNode
+    }
+
+    public void saveOrder(Order order) {
+        ObjectNode root = readRoot();
+        ArrayNode ordersArray = (ArrayNode) root.get("orders");
+
+        ObjectNode orderNode = mapper.createObjectNode();
+        orderNode.put("orderId", order.getOrderId());
+        orderNode.put("customerId", order.getCustomerInfo().id());
+
+        // — Replace the old "items" array with a richer "orderItems" array —
+        ArrayNode orderItemsArray = orderNode.putArray("orderItems");
+        for (OrderItem oi : order.getOrderItems()) {
+            ObjectNode itemNode = mapper.createObjectNode();
+
+            // 1) embed a "product" object with its details
+            ObjectNode prodNode = mapper.createObjectNode();
+            prodNode.put("sku", oi.getSku());
+            prodNode.put("name", oi.getProduct().getName());
+            prodNode.put("price", oi.getUnitPrice());
+
+            // If you store any other product fields (category, description), add them here:
+            // prodNode.put("category", oi.getProduct().getCategory());
+            // prodNode.put("description", oi.getProduct().getDescription());
+
+            itemNode.set("product", prodNode);
+
+            // 2) add the quantity, unitPrice, and totalPrice
+            itemNode.put("quantity", oi.getQuantity());
+            itemNode.put("unitPrice", oi.getUnitPrice());
+            itemNode.put("totalPrice", oi.getTotalPrice());
+
+            orderItemsArray.add(itemNode);
+        }
+
+        // Persist top‐level fields exactly as your frontend expects:
+        orderNode.put("shippingAddress", order.getShippingAddress());
+        orderNode.put("city", order.getCity());
+        orderNode.put("postalCode", order.getPostalCode());
+        orderNode.put("paymentMethod", order.getPaymentMethod());
+        orderNode.put("total", order.getTotal());
+        orderNode.put("status", order.getStatus());
+        orderNode.put("createdAt", order.getCreatedAt().toString());
+
+        ordersArray.add(orderNode);
+        writeRoot(root);
     }
 }

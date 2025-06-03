@@ -1,5 +1,6 @@
 store/PaymentGateway.class
 store/OrderItem.class
+store/CorsConfig.class
 store/CustomerInfo.class
 store/Cart.class
 store/StubPaymentGateway.class
@@ -7,4 +8,5 @@ store/Payment.class
 store/Inventory.class
 store/Order.class
 store/CartItem.class
+store/CorsConfig$1.class
 UnitTests/FeedbackTest.class

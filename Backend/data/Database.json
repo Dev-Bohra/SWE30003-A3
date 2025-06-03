@@ -5,21 +5,21 @@
     "description" : "High-quality widget for all purposes",
     "price" : 19.99,
     "category" : [ "tools", "gadgets" ],
-    "stock" : 100
+    "stock" : 95
   }, {
     "sku" : "SKU002",
     "name" : "Gadget B",
     "description" : "Multi-purpose gadget with advanced features",
     "price" : 29.99,
     "category" : [ "electronics", "home" ],
-    "stock" : 50
+    "stock" : 41
   }, {
     "sku" : "SKU003",
     "name" : "Device C",
     "description" : "Compact device for everyday tasks",
     "price" : 9.99,
     "category" : [ "office", "accessories" ],
-    "stock" : 200
+    "stock" : 0
   } ],
   "feedback" : [ {
     "orderId" : "ORDER-1001",
@@ -56,50 +56,14 @@
     "cart" : {
       "items" : [ ]
     }
-  } ],
-  "orders" : [ {
-    "orderId" : "ORDER-1001",
-    "customerId" : "jo",
-    "items" : [ {
-      "sku" : "SKU001",
-      "quantity" : 2
-    }, {
-      "sku" : "SKU003",
-      "quantity" : 1
-    } ],
-    "total" : 49.97,
-    "status" : "SHIPPED",
-    "createdAt" : "2025-03-01T09:15:00Z"
   }, {
-    "orderId" : "ORDER-1002",
-    "customerId" : "jo",
-    "items" : [ {
-      "sku" : "SKU003",
-      "quantity" : 3
-    } ],
-    "total" : 29.97,
-    "status" : "DELIVERED",
-    "createdAt" : "2025-03-05T11:00:00Z"
-  }, {
-    "orderId" : "ORDER-1003",
-    "customerId" : "jo",
-    "items" : [ {
-      "sku" : "SKU002",
-      "quantity" : 4
-    } ],
-    "total" : 119.96,
-    "status" : "DELIVERED",
-    "createdAt" : "2025-04-01T10:00:00Z"
-  }, {
-    "orderId" : "ORDER-1004",
-    "customerId" : "jo",
-    "items" : [ {
-      "sku" : "SKU003",
-      "quantity" : 5
-    } ],
-    "total" : 49.95,
-    "status" : "DELIVERED",
-    "createdAt" : "2025-04-05T12:00:00Z"
+    "id" : "bob",
+    "firstName" : "bob",
+    "lastName" : "bob",
+    "email" : "b@gmail.com",
+    "cart" : {
+      "items" : [ ]
+    }
   } ],
   "supportTickets" : [ {
     "ticketId" : "TKT-5001",
@@ -131,5 +95,86 @@
       "message" : "Yes, it pairs with any Bluetooth-enabled device.",
       "timestamp" : "2025-03-06T13:10:00Z"
     } ]
+  } ],
+  "orders" : [ {
+    "orderId" : "d5122f4b-6171-4072-9fee-815cd7864ed9",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU001",
+        "name" : "Widget A",
+        "price" : 19.99
+      },
+      "quantity" : 4,
+      "unitPrice" : 19.99,
+      "totalPrice" : 79.96
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "paypal",
+    "total" : 79.96,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T05:09:24.555551Z"
+  }, {
+    "orderId" : "ae7501e9-6128-4a09-a08c-99c04d181912",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 1,
+      "unitPrice" : 9.99,
+      "totalPrice" : 9.99
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "bank_transfer",
+    "total" : 9.99,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T05:11:27.041233Z"
+  }, {
+    "orderId" : "1c6f658d-70fb-4716-8d1c-d4e63f99c48f",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU002",
+        "name" : "Gadget B",
+        "price" : 29.99
+      },
+      "quantity" : 2,
+      "unitPrice" : 29.99,
+      "totalPrice" : 59.98
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "paypal",
+    "total" : 59.98,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T05:20:13.288241Z"
+  }, {
+    "orderId" : "83c2ef18-f7ac-4405-bfd9-b7a71634df1d",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 2,
+      "unitPrice" : 9.99,
+      "totalPrice" : 19.98
+    } ],
+    "shippingAddress" : "123",
+    "city" : "mel",
+    "postalCode" : "300",
+    "paymentMethod" : "credit_card",
+    "total" : 19.98,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T06:15:05.433997Z"
   } ]
 }
