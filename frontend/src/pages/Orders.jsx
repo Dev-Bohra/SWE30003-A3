@@ -231,6 +231,7 @@ function Orders() {
                         <div className="summary-row">
                           <span>Total Items:</span>
                           <span>{order.items.length}</span>
+                        </div>
                         <div className="summary-row">
                           <span>Total Amount:</span>
                           <span>${order.total.toFixed(2)}</span>
