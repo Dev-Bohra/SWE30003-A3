@@ -23,6 +23,22 @@
     "category" : [ "office", "accessories" ],
     "stock" : 36,
     "available" : true
+  }, {
+    "sku" : "SKU1748954672755",
+    "name" : "Iphone",
+    "description" : "smart phone",
+    "price" : 899.97,
+    "category" : [ "Phone", "Smart" ],
+    "stock" : 30,
+    "available" : true
+  }, {
+    "sku" : "SKU1748955032024",
+    "name" : "55 inch lcd tv",
+    "description" : "TCL",
+    "price" : 1500.0,
+    "category" : [ "TV", "LCD" ],
+    "stock" : 6,
+    "available" : true
   } ],
   "feedback" : [ {
     "orderId" : "ORDER-1001",

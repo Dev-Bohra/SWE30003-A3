@@ -11,7 +11,13 @@ import '../styles/AdminDashboard.css';
 function ManageProducts() {
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [newProduct, setNewProduct] = useState({ name: '', price: '', stock: '' });
+  const [newProduct, setNewProduct] = useState({
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+    category: ''
+  });
   const [editedStock, setEditedStock] = useState({});
 
   useEffect(() => {
@@ -52,12 +58,18 @@ function ManageProducts() {
     e.preventDefault();
     const product = {
       sku: `SKU${Date.now()}`,
-      name: newProduct.name,
+      name: newProduct.name.trim(),
+      description: newProduct.description.trim(),
       price: parseFloat(newProduct.price),
       stock: parseInt(newProduct.stock),
-      available: false
+      category: newProduct.category.split(',').map(c => c.trim()).filter(Boolean),
+      available: true
     };
-    addProductApi(product).then(() => window.location.reload());
+    addProductApi(product).then((createdProduct) => {
+      setProducts((prev) => [...prev, createdProduct]);
+      setShowModal(false);
+      setNewProduct({ name: '', description: '', price: '', stock: '', category: '' });
+    });
   };
 
   const getStockStatusClass = (stock) => {
@@ -129,12 +141,20 @@ function ManageProducts() {
                     <input type="text" name="name" value={newProduct.name} onChange={handleInputChange} required />
                   </div>
                   <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <input type="text" name="description" value={newProduct.description} onChange={handleInputChange} required />
+                  </div>
+                  <div className="form-group">
                     <label htmlFor="price">Price ($)</label>
                     <input type="number" name="price" value={newProduct.price} onChange={handleInputChange} step="0.01" min="0" required />
                   </div>
                   <div className="form-group">
                     <label htmlFor="stock">Initial Stock</label>
                     <input type="number" name="stock" value={newProduct.stock} onChange={handleInputChange} min="0" required />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="category">Category (comma separated)</label>
+                    <input type="text" name="category" value={newProduct.category} onChange={handleInputChange} required />
                   </div>
                   <div className="modal-buttons">
                     <button type="submit" className="submit-btn">Add Product</button>
@@ -149,3 +169,4 @@ function ManageProducts() {
 }
 
 export default ManageProducts;
+
