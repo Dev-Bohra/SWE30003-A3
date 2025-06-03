@@ -21,6 +21,7 @@ function Home() {
             description: p.description,
             price: p.price,
             imageUrl: p.imageUrl,
+                    stock: p.stock,
           }));
           setFeatured(mapped);
         })
