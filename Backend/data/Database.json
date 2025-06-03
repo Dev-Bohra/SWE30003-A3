@@ -52,22 +52,6 @@
     "comment" : "Good value, though packaging could be better."
   } ],
   "customers" : [ {
-    "id" : "CUST-001",
-    "firstName" : "Alice",
-    "lastName" : "Johnson",
-    "email" : "alice.johnson@example.com",
-    "cart" : {
-      "items" : [ ]
-    }
-  }, {
-    "id" : "CUST-002",
-    "firstName" : "Bob",
-    "lastName" : "Smith",
-    "email" : "bob.smith@example.com",
-    "cart" : {
-      "items" : [ ]
-    }
-  }, {
     "id" : "jo",
     "firstName" : "Joby",
     "lastName" : "Trigg",
@@ -85,41 +69,11 @@
     }
   } ],
   "supportTickets" : [ {
-    "ticketId" : "TKT-5001",
-    "customerId" : "CUST-001",
-    "subject" : "Missing item in ORDER-1001",
-    "status" : "OPEN",
-    "createdAt" : "2025-03-02T08:00:00Z",
-    "messages" : [ {
-      "from" : "customer",
-      "message" : "I only received 2 of the 3 items I ordered.",
-      "timestamp" : "2025-03-02T08:05:00Z"
-    }, {
-      "from" : "support",
-      "message" : "Sorry about that! We'll ship the missing item today.",
-      "timestamp" : "2025-03-02T09:30:00Z"
-    } ]
-  }, {
-    "ticketId" : "TKT-5002",
-    "customerId" : "CUST-002",
-    "subject" : "Question about Gadget B features",
-    "status" : "RESOLVED",
-    "createdAt" : "2025-03-06T12:20:00Z",
-    "messages" : [ {
-      "from" : "customer",
-      "message" : "Does Gadget B support Bluetooth connectivity?",
-      "timestamp" : "2025-03-06T12:22:00Z"
-    }, {
-      "from" : "support",
-      "message" : "Yes, it pairs with any Bluetooth-enabled device.",
-      "timestamp" : "2025-03-06T13:10:00Z"
-    } ]
-  }, {
     "ticketId" : "32440c99-ccea-4d60-bfc3-cecaa344eef8",
     "customerId" : "jo",
     "subject" : "Order Issue",
     "message" : "this is a test",
-    "status" : "OPEN",
+    "status" : "In Progress",
     "createdAt" : "2025-06-03T17:42:43.569200Z"
   } ],
   "orders" : [ {

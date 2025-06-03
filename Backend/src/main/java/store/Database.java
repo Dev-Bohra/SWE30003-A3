@@ -9,8 +9,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Database {
     private static Database instance;
@@ -171,6 +170,32 @@ public class Database {
         writeRoot(root);
     }
 
+    public boolean deleteCustomer(String id) {
+        ObjectNode root = readRoot();
+        ArrayNode customers = (ArrayNode) root.get("customers");
+
+        if (customers == null) return false;
+
+        boolean removed = false;
+
+        Iterator<JsonNode> it = customers.iterator();
+        while (it.hasNext()) {
+            JsonNode cust = it.next();
+            JsonNode custIdNode = cust.get("id");
+            if (custIdNode != null && custIdNode.asText().equals(id)) {
+                it.remove();
+                removed = true;
+                break;
+            }
+        }
+
+        if (removed) {
+            writeRoot(root);
+        }
+
+        return removed;
+    }
+
     /**
      * Load all customers, reconstructing each Cart by reading full CartItem JSON nodes.
      */
@@ -249,6 +274,29 @@ public class Database {
         }
         return null;
     }
+
+    public boolean updateCustomerDetails(String id, String firstName, String lastName, String email) {
+        ObjectNode root = readRoot();
+        ArrayNode allCustRaw = (ArrayNode) root.get("customers");
+        boolean found = false;
+
+        for (JsonNode node : allCustRaw) {
+            if (id.equals(node.get("id").asText())) {
+                ((ObjectNode) node).put("firstName", firstName);
+                ((ObjectNode) node).put("lastName", lastName);
+                ((ObjectNode) node).put("email", email);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            writeRoot(root);
+        }
+
+        return found;
+    }
+
 
     /**
      * Persist the updated Cart for a given user, writing full CartItem JSON for each item.
@@ -390,5 +438,59 @@ public class Database {
         }
 
         return result;
+    }
+    public List<Map<String, Object>> getAllSupportTickets() {
+        List<Map<String, Object>> enrichedTickets = new ArrayList<>();
+        ArrayNode ticketsArray = (ArrayNode) readRoot().get("supportTickets");
+
+        for (JsonNode node : ticketsArray) {
+            String customerId = node.hasNonNull("customerId") ? node.get("customerId").asText() : "";
+            String ticketId = node.hasNonNull("ticketId") ? node.get("ticketId").asText() : "";
+            String message = node.hasNonNull("message") ? node.get("message").asText() : "";
+            String status = node.hasNonNull("status") ? node.get("status").asText() : "";
+            String createdAt = node.hasNonNull("createdAt") ? node.get("createdAt").asText() : "";
+            String subject = node.hasNonNull("subject") ? node.get("subject").asText() : "";
+            Customer customer = getCustomerById(customerId);
+            String name = customer != null ? customer.getCustomerInfo().firstName() : "Unknown";
+            String email = customer != null ? customer.getCustomerInfo().email() : "Unknown";
+
+            Map<String, Object> ticket = new HashMap<>();
+            ticket.put("ticketId", ticketId);
+            ticket.put("customerId", customerId);
+            ticket.put("customerName", name);
+            ticket.put("customerEmail", email);
+            ticket.put("subject", subject);
+            ticket.put("message", message);
+            ticket.put("status", status);
+            ticket.put("createdAt", createdAt);
+
+            enrichedTickets.add(ticket);
+        }
+
+        return enrichedTickets;
+    }
+
+    public SupportTicket updateSupportTicketStatus(String ticketId, String newStatus) {
+        ObjectNode root = readRoot();
+        ArrayNode ticketsArray = (ArrayNode) root.get("supportTickets");
+
+        for (JsonNode node : ticketsArray) {
+            if (node.get("ticketId").asText().equals(ticketId)) {
+                ((ObjectNode) node).put("status", newStatus);
+                writeRoot(root);
+
+                SupportTicket ticket = new SupportTicket(
+                        node.get("customerId").asText(),
+                        node.get("ticketId").asText(),
+                        node.get("subject").asText(),
+                        node.get("message").asText(),
+                        node.get("status").asText(),
+                        node.get("createdAt").asText()
+                );
+                return ticket;
+            }
+        }
+
+        return null; // Not found
     }
 }

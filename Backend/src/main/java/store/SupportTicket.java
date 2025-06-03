@@ -24,6 +24,16 @@ public class SupportTicket implements Notify {
         this.status = "OPEN";
     }
 
+    //used to get all support tickets from the db
+    public SupportTicket(String customerId, String ticketId, String subject, String issue, String status, String createdAt) {
+        this.ticketId = ticketId;
+        this.customerId = customerId;
+        this.subject = subject;
+        this.issue = issue;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
     public String getStatus() {
         return status;
     }
