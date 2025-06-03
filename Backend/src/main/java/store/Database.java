@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -357,5 +358,37 @@ public class Database {
         ObjectNode root = readRoot();
         root.set("orders", updatedOrders); // replace the array
         writeRoot(root);                   // persist to disk
+    }
+    public void saveSupportTicket(SupportTicket ticket) {
+        ObjectNode root = readRoot();
+        ArrayNode ticketsArray = (ArrayNode) root.withArray("supportTickets");
+
+        ObjectNode ticketNode = mapper.createObjectNode();
+        ticketNode.put("ticketId", ticket.getTicketId());
+        ticketNode.put("customerId", ticket.getCustomerId());
+        ticketNode.put("subject", ticket.getSubject());
+        ticketNode.put("message", ticket.getIssue());
+        ticketNode.put("status", ticket.getStatus());
+        ticketNode.put("createdAt", ticket.getCreatedAt().toString());
+
+        ticketsArray.add(ticketNode);
+        writeRoot(root);
+    }
+
+
+    public List<SupportTicket> getSupportTicketsByCustomerId(String customerId) {
+        ArrayNode tickets = (ArrayNode) readRoot().get("supportTickets");
+        List<SupportTicket> result = new ArrayList<>();
+
+        for (JsonNode node : tickets) {
+            if (node.get("customerId").asText().equals(customerId)) {
+                String id = node.get("customerId").asText();
+                String subject = node.get("subject").asText();
+                String issue = node.get("message").asText();
+                result.add(new SupportTicket(id, subject, issue));
+            }
+        }
+
+        return result;
     }
 }

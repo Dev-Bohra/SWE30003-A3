@@ -21,7 +21,7 @@
     "description" : "Compact device for everyday tasks",
     "price" : 9.99,
     "category" : [ "office", "accessories" ],
-    "stock" : 36,
+    "stock" : 33,
     "available" : true
   }, {
     "sku" : "SKU1748954672755",
@@ -114,6 +114,13 @@
       "message" : "Yes, it pairs with any Bluetooth-enabled device.",
       "timestamp" : "2025-03-06T13:10:00Z"
     } ]
+  }, {
+    "ticketId" : "32440c99-ccea-4d60-bfc3-cecaa344eef8",
+    "customerId" : "jo",
+    "subject" : "Order Issue",
+    "message" : "this is a test",
+    "status" : "OPEN",
+    "createdAt" : "2025-06-03T17:42:43.569200Z"
   } ],
   "orders" : [ {
     "orderId" : "d5122f4b-6171-4072-9fee-815cd7864ed9",
@@ -371,5 +378,25 @@
     "total" : 899.97,
     "status" : "PAID",
     "createdAt" : "2025-06-03T15:16:30.976357Z"
+  }, {
+    "orderId" : "f8e96a24-0108-4cb6-bb1a-3f2f849b926a",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU003",
+        "name" : "Device C",
+        "price" : 9.99
+      },
+      "quantity" : 3,
+      "unitPrice" : 9.99,
+      "totalPrice" : 29.97
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "paypal",
+    "total" : 29.97,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T17:49:04.624195Z"
   } ]
 }

@@ -14,7 +14,7 @@ public class Order {
     private final Payment payment;       // stubbed‐gateway
     private final CustomerInfo customerInfo;
 
-    // ← These four fields must be stored in the Order:
+    //  These four fields must be stored in the Order:
     private String shippingAddress;
     private String city;
     private String postalCode;

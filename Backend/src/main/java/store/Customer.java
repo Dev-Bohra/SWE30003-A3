@@ -81,8 +81,10 @@ public class Customer {
         fb.submit();
     }
 
-    public void raiseSupportTicket(String issue) {
-        SupportTicket ticket = new SupportTicket(id, issue);
+    public SupportTicket raiseSupportTicket(String subject, String issue) {
+        SupportTicket ticket = new SupportTicket(id, subject, issue);
+        Database.getInstance().saveSupportTicket(ticket);
         ticket.send(this.customerInfo);
+        return ticket;
     }
 }
