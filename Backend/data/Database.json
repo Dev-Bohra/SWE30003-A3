@@ -29,7 +29,7 @@
     "description" : "smart phone",
     "price" : 899.97,
     "category" : [ "Phone", "Smart" ],
-    "stock" : 30,
+    "stock" : 29,
     "available" : true
   }, {
     "sku" : "SKU1748955032024",
@@ -37,7 +37,7 @@
     "description" : "TCL",
     "price" : 1500.0,
     "category" : [ "TV", "LCD" ],
-    "stock" : 6,
+    "stock" : 0,
     "available" : true
   } ],
   "feedback" : [ {
@@ -133,7 +133,7 @@
     "postalCode" : "3088",
     "paymentMethod" : "paypal",
     "total" : 79.96,
-    "status" : "PAID",
+    "status" : "in transit",
     "createdAt" : "2025-06-03T05:09:24.555551Z"
   }, {
     "orderId" : "ae7501e9-6128-4a09-a08c-99c04d181912",
@@ -213,7 +213,7 @@
     "postalCode" : "3088",
     "paymentMethod" : "credit_card",
     "total" : 19.99,
-    "status" : "PAID",
+    "status" : "in transit",
     "createdAt" : "2025-06-03T07:15:38.532821Z"
   }, {
     "orderId" : "9ccf5de4-d526-4c2a-82b5-e0041f930a1a",
@@ -331,5 +331,45 @@
     "total" : 59.97,
     "status" : "PAID",
     "createdAt" : "2025-06-03T12:39:04.753944Z"
+  }, {
+    "orderId" : "197697df-d2a8-48cc-ae43-cf74731f91f4",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU1748955032024",
+        "name" : "55 inch lcd tv",
+        "price" : 1500.0
+      },
+      "quantity" : 6,
+      "unitPrice" : 1500.0,
+      "totalPrice" : 9000.0
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "bank_transfer",
+    "total" : 9000.0,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T15:15:01.483209Z"
+  }, {
+    "orderId" : "72ae8248-3580-474f-a9e8-2856d02cebfc",
+    "customerId" : "jo",
+    "orderItems" : [ {
+      "product" : {
+        "sku" : "SKU1748954672755",
+        "name" : "Iphone",
+        "price" : 899.97
+      },
+      "quantity" : 1,
+      "unitPrice" : 899.97,
+      "totalPrice" : 899.97
+    } ],
+    "shippingAddress" : "unit 2 18",
+    "city" : "briar hill",
+    "postalCode" : "3088",
+    "paymentMethod" : "credit_card",
+    "total" : 899.97,
+    "status" : "PAID",
+    "createdAt" : "2025-06-03T15:16:30.976357Z"
   } ]
 }

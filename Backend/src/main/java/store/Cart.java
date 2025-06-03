@@ -100,13 +100,11 @@ public class Cart {
             String postalCode,
             String paymentMethod
     ) {
-        Inventory inventory = Inventory.getInstance();
         Payment payment = new Payment(new StubPaymentGateway());
 
         return new Order(
                 customerInfo,       // CustomerInfo
                 items,              // List<CartItem>
-                inventory,          // Inventory singleton
                 payment,            // Payment stub
                 shippingAddress,    // String shippingAddress
                 city,               // String city

@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import store.*;
 import store.dtos.OrderRequest;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * REST endpoint for placing a new Order and retrieving past orders.
  *   • POST /api/orders/{userId}    → place an order (checkout)
@@ -23,7 +27,7 @@ public class OrderController {
 
     /**
      * POST /api/orders/{userId}
-     *   → Use Customer.placeOrder(...) (which calls Cart.initiateOrder(...) internally),
+     *   -> Use Customer.placeOrder(...) (which calls Cart.initiateOrder(...) internally),
      *     then persist the Order and clear the cart in the JSON DB.
      */
     @PostMapping("/{userId}")
@@ -57,7 +61,7 @@ public class OrderController {
 
     /**
      * GET /api/orders/{userId}
-     *   → Return all past orders for this user from the JSON “orders” store.
+     *   -> Return all past orders for this user from the JSON “orders” store.
      */
     @GetMapping("/{userId}")
     public ResponseEntity<ObjectNode> getOrdersForUser(@PathVariable String userId) {
@@ -72,5 +76,27 @@ public class OrderController {
         wrapper.set("orders", filtered);
         return ResponseEntity.ok(wrapper);
     }
+
+    @GetMapping("")
+    public ResponseEntity<ObjectNode> getAllOrders() {
+        JsonNode allOrders = db.loadOrders();
+        ObjectNode wrapper = new ObjectMapper().createObjectNode();
+        wrapper.set("orders", allOrders);
+        return ResponseEntity.ok(wrapper);
+    }
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> updateOrderStatus(
+            @PathVariable String id,
+            @RequestBody Map<String, String> body
+    ) {
+        String newStatus = body.get("status");
+        if (newStatus == null || newStatus.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        boolean updated = Database.getInstance().updateOrderStatus(id, newStatus);
+        return updated ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
+    }
+
 }
 

@@ -11,7 +11,6 @@ import java.util.UUID;
 public class Order {
     private final String orderId = UUID.randomUUID().toString();
     private final List<OrderItem> items;
-    private final Inventory inventory;
     private final Payment payment;       // stubbed‐gateway
     private final CustomerInfo customerInfo;
 
@@ -31,7 +30,6 @@ public class Order {
      *
      * @param customerInfo    the customer placing this order
      * @param cartItems       List<CartItem> from the customer’s cart
-     * @param inventory       Inventory singleton to verify/deduct stock
      * @param payment         Payment object (with StubPaymentGateway)
      * @param shippingAddress shipping street address
      * @param city            shipping city
@@ -41,7 +39,6 @@ public class Order {
     public Order(
             CustomerInfo customerInfo,
             List<CartItem> cartItems,
-            Inventory inventory,
             Payment payment,
             String shippingAddress,
             String city,
@@ -51,7 +48,6 @@ public class Order {
         this.items = cartItems.stream()
                 .map(OrderItem::new)
                 .toList();
-        this.inventory = inventory;
         this.payment = payment;
         this.customerInfo = customerInfo;
 
@@ -125,6 +121,7 @@ public class Order {
     // ——————————————————————————————————————————————————————————————————————————
     public void checkout() {
         // 1) Verify stock
+        Inventory inventory = Inventory.getInstance();
         if (!inventory.verifyStock(items)) {
             status = "OUT_OF_STOCK";
             return;

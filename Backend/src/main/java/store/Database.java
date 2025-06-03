@@ -333,4 +333,29 @@ public class Database {
         ordersArray.add(orderNode);
         writeRoot(root);
     }
+
+   public boolean updateOrderStatus(String orderId, String newStatus) {
+        JsonNode allOrders = loadOrders();
+        boolean found = false;
+
+        for (JsonNode orderNode : allOrders) {
+            if (orderNode.get("orderId").asText().equals(orderId)) {
+                ((ObjectNode) orderNode).put("status", newStatus);
+                found = true;
+                break;
+            }
+        }
+
+        if (found) {
+            saveOrders(allOrders); // Persist the updated list back to file
+        }
+
+        return found;
+    }
+
+    public void saveOrders(JsonNode updatedOrders) {
+        ObjectNode root = readRoot();
+        root.set("orders", updatedOrders); // replace the array
+        writeRoot(root);                   // persist to disk
+    }
 }

@@ -1,108 +1,109 @@
+// src/pages/ViewOrders.jsx
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { fetchAllOrders, updateOrderStatus } from '../api/adminOrdersApi';
 import '../styles/ViewOrders.css';
 import '../styles/AdminDashboard.css';
 
 function ViewOrders() {
-  const [orders, setOrders] = useState([
-    {
-      id: "ORD001",
-      user: "John Doe",
-      total: "150.00",
-      status: "Pending",
-      date: "2024-03-15"
-    },
-    {
-      id: "ORD002",
-      user: "Jane Smith",
-      total: "75.50",
-      status: "Shipped",
-      date: "2024-03-14"
-    },
-    {
-      id: "ORD003",
-      user: "Mike Johnson",
-      total: "200.00",
-      status: "Delivered",
-      date: "2024-03-13"
-    },
-    {
-      id: "ORD004",
-      user: "Sarah Wilson",
-      total: "125.75",
-      status: "Pending",
-      date: "2024-03-12"
-    },
-    {
-      id: "ORD005",
-      user: "David Brown",
-      total: "300.25",
-      status: "Shipped",
-      date: "2024-03-11"
-    }
-  ]);
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  // Update order status
-  const handleStatusChange = (orderId, newStatus) => {
-    const updatedOrders = orders.map(order => {
-      if (order.id === orderId) {
-        return { ...order, status: newStatus };
-      }
-      return order;
-    });
-    
-    setOrders(updatedOrders);
-  };
+    useEffect(() => {
+        fetchAllOrders()
+            .then((data) => {
+                const rawOrders = Array.isArray(data.orders) ? data.orders : [];
+                const parsed = rawOrders.map((order) => ({
+                    ...order,
+                    date:
+                        order.createdAt && !isNaN(new Date(order.createdAt))
+                            ? new Date(order.createdAt)
+                            : null
+                }));
+                setOrders(parsed);
+            })
+            .catch((err) => {
+                console.error('Failed to fetch orders:', err);
+                setOrders([]);
+            })
+            .finally(() => setLoading(false));
+    }, []);
 
-  return (
-    <div className="analytics-container">
-      <div className="analytics-header">
-        <h1>Order Management</h1>
-        <p>View and manage all orders</p>
-      </div>
-      
-      <div className="table-container">
-        <table className="orders-table">
-          <thead>
-            <tr>
-              <th>Order ID</th>
-              <th>User</th>
-              <th>Total</th>
-              <th>Status</th>
-              <th>Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.user}</td>
-                <td>${order.total}</td>
-                <td>
-                  <span className={`status-badge ${order.status.toLowerCase()}`}>
-                    {order.status}
-                  </span>
-                </td>
-                <td>{order.date}</td>
-                <td>
-                  <select 
-                    className="status-select"
-                    value={order.status}
-                    onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                  >
-                    <option value="Pending">Pending</option>
-                    <option value="Shipped">Shipped</option>
-                    <option value="Delivered">Delivered</option>
-                  </select>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    const handleStatusChange = (orderId, newStatus) => {
+        const updatedOrders = orders.map((order) => {
+            if (order.orderId === orderId) {
+                return { ...order, status: newStatus };
+            }
+            return order;
+        });
+        setOrders(updatedOrders);
+        updateOrderStatus(orderId, newStatus).catch((err) => {
+            console.error('Failed to update order status:', err);
+        });
+    };
+
+    return (
+        <div className="analytics-container">
+            <div className="analytics-header">
+                <h1>Order Management</h1>
+                <p>View and manage all orders</p>
+            </div>
+
+            <div className="table-container">
+                <table className="orders-table">
+                    <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>User</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {loading ? (
+                        <tr>
+                            <td colSpan="6">Loading orders...</td>
+                        </tr>
+                    ) : orders.length === 0 ? (
+                        <tr>
+                            <td colSpan="6">No orders available.</td>
+                        </tr>
+                    ) : (
+                        orders.map((order) => (
+                            <tr key={order.orderId}>
+                                <td>{order.orderId}</td>
+                                <td>{order.customerId}</td>
+                                <td>${order.total?.toFixed(2)}</td>
+                                <td>
+                    <span className={`status-badge ${order.status?.toLowerCase()}`}>
+                      {order.status}
+                    </span>
+                                </td>
+                                <td>{order.date ? order.date.toLocaleDateString() : 'Unknown'}</td>
+                                <td>
+                                    <select
+                                        className="status-select"
+                                        value={order.status.toLowerCase()}
+                                        onChange={(e) =>
+                                            handleStatusChange(order.orderId, e.target.value)
+                                        }
+                                    >
+                                        <option value="shipped">Shipped</option>
+                                        <option value="delivered">Delivered</option>
+                                        <option value="paid">Paid</option>
+                                        <option value="in transit">In Transit</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        ))
+                    )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 }
 
-export default ViewOrders; 
+export default ViewOrders;
+
