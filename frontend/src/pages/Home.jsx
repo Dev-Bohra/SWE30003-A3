@@ -1,110 +1,63 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import '../styles/Home.css';
-
-// dummy data for testing - will be replaced with real API data later
-const mockProducts = [
-  {
-    _id: '1',
-    name: 'Sample Product 1',
-    category: 'Electronics',
-    price: 299.99,
-    image: 'https://via.placeholder.com/300'
-  },
-  {
-    _id: '2',
-    name: 'Sample Product 2',
-    category: 'Accessories',
-    price: 149.49,
-    image: 'https://via.placeholder.com/300'
-  },
-  {
-    _id: '3',
-    name: 'Sample Product 3',
-    category: 'Audio',
-    price: 99.95,
-    image: 'https://via.placeholder.com/300'
-  }
-];
-
-// categories for the shop - will be dynamic later
-const mockCategories = [
-  { name: 'Electronics', image: 'https://via.placeholder.com/150' },
-  { name: 'Accessories', image: 'https://via.placeholder.com/150' },
-  { name: 'Audio', image: 'https://via.placeholder.com/150' },
-  { name: 'Wearables', image: 'https://via.placeholder.com/150' },
-];
+// src/pages/Home.jsx
+import React, { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
+import { fetchPopularProducts } from "../api/inventoryAPI";
+import ProductCard from "../components/ProductCard";
+import "../styles/Home.css";
 
 function Home() {
-  // get addToCart function from our cart context
   const { addToCart } = useCart();
+  const [featured, setFeatured] = useState([]);
 
-  // handle adding items to cart
-  const handleAddToCart = (product) => {
-    addToCart(product);
-  };
+  useEffect(() => {
+    fetchPopularProducts()
+        .then((data) => {
+          // data = [ { _id, sku, name, description, price, category: [...], imageUrl, … }, … ]
+            const mapped = data
+                .filter((p) => p.available !== false)
+                .map((p) => ({
+            sku: p.sku,
+            name: p.name,
+            description: p.description,
+            price: p.price,
+            imageUrl: p.imageUrl,
+                    stock: p.stock,
+          }));
+          setFeatured(mapped);
+        })
+        .catch((err) => {
+          console.error("Failed to load featured products:", err);
+        });
+  }, []);
 
   return (
-    <div className="home-container">
-      {/* hero section with main banner */}
-      <div className="jumbotron jumbotron-fluid bg-light text-dark text-center py-5 mb-5 banner-gradient">
-        <div className="container">
-          <h1 className="display-4">Revolutionizing Electronics</h1>
-          <p className="lead">Find the latest gadgets and accessories that power your life.</p>
-          <Link to="/products" className="btn mt-3">
-            Shop Now
-          </Link>
-        </div>
-      </div>
-
-      <main className="container mt-5">
-        {/* featured products section */}
-        <h2 className="text-center mb-4">Featured Products</h2>
-        <p className="text-center mb-5 text-muted">
-          Discover our top-selling gadgets and must-have accessories.
-        </p>
-
-        {/* product grid */}
-        <div className="row">
-          {mockProducts.map((product) => (
-            <div className="col-md-4 mb-4" key={product._id}>
-              <div className="card h-100">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="card-img-top"
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{product.name}</h5>
-                  <p className="card-text text-muted">{product.category}</p>
-                  <p className="card-text fw-bold">${product.price.toFixed(2)}</p>
-                  <button 
-                    className="btn mt-auto" 
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* promo banner */}
-        <div className="row mt-5 mb-5">
-          <div className="col-12">
-            <div className="bg-primary text-white text-center py-4 rounded">
-              <h3>Don't Miss Our Special Offers!</h3>
-              <p>Sign up for our newsletter and get 10% off your first order.</p>
-              <Link to="/products" className="btn mt-2">
-                Shop Now
-              </Link>
-            </div>
+      <main className="home-container">
+        <section className="hero-section text-center py-5 bg-light">
+          <div className="container">
+            <h1 className="display-4">Welcome to AWE Electronics</h1>
+            <p className="lead">
+              Discover the latest gadgets, electronics, and accessories. Shop now!
+            </p>
           </div>
-        </div>
+        </section>
+
+        <section className="featured-section py-5">
+          <div className="container">
+            <h2 className="mb-4">Featured Products</h2>
+            {featured.length === 0 ? (
+                <div className="text-center">Loading featured products...</div>
+            ) : (
+                <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+                  {featured.map((product) => (
+                      <div className="col" key={product.sku}>
+                        <ProductCard product={product} addToCart={addToCart} />
+                      </div>
+                  ))}
+                </div>
+            )}
+          </div>
+        </section>
       </main>
-    </div>
   );
 }
 

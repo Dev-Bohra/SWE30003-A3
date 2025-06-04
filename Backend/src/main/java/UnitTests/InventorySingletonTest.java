@@ -1,8 +1,8 @@
 // InventorySingletonTest.java
 package UnitTests;
 
-import Store.Inventory;
-import Store.Database;
+import store.Inventory;
+import store.Database;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -19,7 +19,7 @@ class InventorySingletonTest {
             Field f = Inventory.class.getDeclaredField("instance");
             f.setAccessible(true);
             f.set(null, null);
-            Class<?> dbCls = Class.forName("Store.Database");
+            Class<?> dbCls = Class.forName("store.Database");
             Field dbField = dbCls.getDeclaredField("instance");
             dbField.setAccessible(true);
             dbField.set(null, null);

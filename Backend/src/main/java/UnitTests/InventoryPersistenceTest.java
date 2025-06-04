@@ -1,8 +1,8 @@
 // InventoryPersistenceTest.java
 package UnitTests;
 
-import Store.Inventory;
-import Store.Product;
+import store.Inventory;
+import store.Product;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -31,7 +31,7 @@ class InventoryPersistenceTest {
             Field f = Inventory.class.getDeclaredField("instance");
             f.setAccessible(true);
             f.set(null, null);
-            Class<?> dbCls = Class.forName("Store.Database");
+            Class<?> dbCls = Class.forName("store.Database");
             Field dbField = dbCls.getDeclaredField("instance");
             dbField.setAccessible(true);
             dbField.set(null, null);
@@ -59,8 +59,8 @@ class InventoryPersistenceTest {
     }
 
     @Test
-    void testPurchaseAndReload() throws IOException {
-        inventory.updateStock("p1", -2);
+    void testRestockAndReload() throws IOException {
+        inventory.restockProduct("p1", 8);
         assertEquals(8, inventory.getProducts().get("p1").getStock());
 
         ObjectMapper mapper = new ObjectMapper();

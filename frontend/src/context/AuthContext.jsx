@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { loginCustomer, registerCustomer } from '../api/customerApi';
 
 // Create the Auth context
 const AuthContext = createContext();
@@ -16,28 +17,28 @@ export function AuthProvider({ children }) {
     // On page load, restore user from localStorage if available
     const user = localStorage.getItem('currentUser');
     if (user) {
-      const parsedUser = JSON.parse(user);
-      setCurrentUser(parsedUser);
+      setCurrentUser(JSON.parse(user));
     }
   }, []);
 
   // Signup function: register a new user
-  const signup = (userData) => {
-    // Load existing users
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    // Check for duplicate email
-    if (users.some(user => user.email === userData.email)) {
-      throw new Error('Email already exists');
-    }
-    // Add new user
-    users.push(userData);
-    localStorage.setItem('users', JSON.stringify(users));
-    // Auto-login after signup
-    login(userData.email, userData.password);
+  const signup = async ({ userId, firstName, lastName, email }) => {
+    const customer = await registerCustomer({ userId, firstName, lastName, email }); // ✅ UPDATED
+
+    const newUser = {
+      id: customer.customerInfo.id,
+      firstName: customer.customerInfo.firstName,
+      lastName: customer.customerInfo.lastName,
+      email: customer.customerInfo.email,
+      role: 'Customer'
+    };
+
+    setCurrentUser(newUser);
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
   };
 
   // Login function: handles both user and admin login
-  const login = (email, password, role) => {
+  const login = async (email, password, role) => {
     // Mock admin login check
     if (role === 'Admin') {
       if (email === 'admin@com' && password === 'password') {
@@ -51,16 +52,19 @@ export function AuthProvider({ children }) {
       }
       throw new Error('Invalid admin credentials');
     }
-    // Regular user login check
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const user = users.find(u => u.email === email && u.password === password);
-    if (!user) {
-      throw new Error('Invalid email or password');
-    }
-    // Remove password before storing in state
-    const { password: _, ...userWithoutPassword } = user;
-    setCurrentUser(userWithoutPassword);
-    localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+
+    const customerInfo = await loginCustomer(email, password); // ✅ UPDATED
+
+    const user = {
+      id: customerInfo.id,
+      firstName: customerInfo.firstName,
+      lastName: customerInfo.lastName,
+      email: customerInfo.email,
+      role: "Customer"
+    };
+
+    setCurrentUser(user);
+    localStorage.setItem("currentUser", JSON.stringify(user));
   };
 
   // Logout function
@@ -79,8 +83,8 @@ export function AuthProvider({ children }) {
 
   // Return the provider
   return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
+      <AuthContext.Provider value={value}>
+        {children}
+      </AuthContext.Provider>
   );
-} 
+}
