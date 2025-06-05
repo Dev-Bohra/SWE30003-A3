@@ -27,6 +27,7 @@
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/store/controllers/AnalyticsController.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/store/controllers/ShippmentController.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/UnitTests/InventoryPersistenceTest.java
+/Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/store/dtos/OrderWithInvoiceResponse.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/store/Order.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/UnitTests/InventorySingletonTest.java
 /Users/jobytrigg/Documents/GitHub/SWE30003-A3/Backend/src/main/java/store/Notify.java

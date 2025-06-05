@@ -1,9 +1,5 @@
 package store;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
 public class Invoice implements Notify {
@@ -20,47 +16,46 @@ public class Invoice implements Notify {
     }
 
     /**
-     * Generates a text invoice file named "invoice-<invoiceId>.txt",
-     * overwrites if existing, and returns the File object.
+     * Build the full invoice contents as a single String (with newline separators).
+     * You can use this both for writing to disk and for sending over HTTP.
      */
-    public File generateInvoice() {
-        String fileName = "invoice-" + invoiceId + ".txt";
-        File file = new File(fileName);
+    public String generateInvoice() {
+        StringBuilder sb = new StringBuilder();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-            // Header
-            writer.write("Invoice ID: " + invoiceId);
-            writer.newLine();
-            writer.write("Customer: " +
-                    customerInfo.firstName() + " " +
-                    customerInfo.lastName() +
-                    " (ID: " + customerInfo.id() + ")");
-            writer.newLine();
-            writer.write("--------------------------------------------------");
-            writer.newLine();
+        // 1) Header
+        sb.append("Invoice ID: ").append(invoiceId).append("\n");
+        sb.append("Customer: ")
+                .append(customerInfo.firstName())
+                .append(" ")
+                .append(customerInfo.lastName())
+                .append(" (ID: ")
+                .append(customerInfo.id())
+                .append(")\n");
+        sb.append("--------------------------------------------------\n");
 
-            // Line-items
-            writer.write(String.format("%-20s %5s %10s %12s",
-                    "Product", "Qty", "Unit Price", "Line Total"));
-            writer.newLine();
-            for (OrderItem item : orderedItems) {
-                String name = item.getProduct().getName();
-                int qty = item.getQuantity();
-                double up = item.getUnitPrice();
-                double lt = item.getTotalPrice();
-                writer.write(String.format("%-20s %5d %10.2f %12.2f",
-                        name, qty, up, lt));
-                writer.newLine();
-            }
+        // 2) Column headings
+        sb.append(String.format("%-20s %5s %10s %12s",
+                        "Product", "Qty", "Unit Price", "Line Total"))
+                .append("\n");
 
-            writer.write("--------------------------------------------------");
-            writer.newLine();
-            writer.write(String.format("TOTAL: %38.2f", totalPrice));
-            writer.newLine();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to write invoice file: " + fileName, e);
+        // 3) Each line‐item
+        for (OrderItem item : orderedItems) {
+            String name = item.getProduct().getName();
+            int    qty  = item.getQuantity();
+            double up   = item.getUnitPrice();
+            double lt   = item.getTotalPrice();
+
+            sb.append(String.format("%-20s %5d %10.2f %12.2f",
+                            name, qty, up, lt))
+                    .append("\n");
         }
-        return file;
+
+        // 4) Footer
+        sb.append("--------------------------------------------------\n");
+        sb.append(String.format("TOTAL: %38.2f", totalPrice))
+                .append("\n");
+
+        return sb.toString();
     }
 
     public void send(Object reciever) {
@@ -69,7 +64,7 @@ public class Invoice implements Notify {
          */
 
         if (reciever instanceof CustomerInfo) {
-            File invoice = generateInvoice();
+            String invoice = generateInvoice();
                 /*
                 logic to send invoice
                  */
