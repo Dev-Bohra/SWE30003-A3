@@ -25,6 +25,29 @@ export async function placeOrderApi(userId, checkoutData) {
     return await res.json(); // the full Order JSON
 }
 
+export function triggerDownloadFromBase64(filename, base64String) {
+    // 1) Convert Base64 to raw binary bytes:
+    const byteCharacters = atob(base64String); // decode
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+
+    // 2) Create a Blob from those bytes (MIME type: text/plain)
+    const blob = new Blob([byteArray], { type: "text/plain" });
+
+    // 3) Programmatically trigger a “download” in the browser
+    const downloadUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(downloadUrl);
+}
+
 /**
  * GET /api/orders/{userId}
  *   Returns { orders: [ an array of Order JSONs ] }

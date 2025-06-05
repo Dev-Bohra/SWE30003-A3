@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import "../styles/Cart.css";
+import {triggerDownloadFromBase64} from "../api/orderApi.js";
 
 function Cart() {
   const navigate = useNavigate();
@@ -35,7 +36,13 @@ function Cart() {
 
     setPlacingOrder(true);
     try {
-      await placeOrder({ shippingAddress, city, postalCode, paymentMethod });
+      const {
+        order: createdOrder,
+        invoiceBase64,
+        filename,
+      } =await placeOrder({ shippingAddress, city, postalCode, paymentMethod });
+
+      triggerDownloadFromBase64(filename, invoiceBase64);
       setShowConfirmation(true);
       setTimeout(() => navigate("/orders"), 2000);
     } catch {

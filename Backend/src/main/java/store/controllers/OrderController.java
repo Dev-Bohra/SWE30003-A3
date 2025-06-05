@@ -5,13 +5,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import store.*;
 import store.dtos.OrderRequest;
+import store.dtos.OrderWithInvoiceResponse;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 /**
@@ -31,32 +36,44 @@ public class OrderController {
      *     then persist the Order and clear the cart in the JSON DB.
      */
     @PostMapping("/{userId}")
-    public ResponseEntity<Order> placeOrder(
+    public ResponseEntity<OrderWithInvoiceResponse> placeOrder(
             @PathVariable String userId,
-            @RequestBody OrderRequest req  // { shippingAddress, city, postalCode, paymentMethod }
+            @RequestBody OrderRequest req
     ) {
-        // 1) Look up the Customer
-        Customer c = db.getCustomerById(userId);
-        if (c == null) {
+        // Look up customer
+        Customer customer = db.getCustomerById(userId);
+        if (customer == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // 2) Place the order via Customer.placeOrder(...)
-        Order order = c.placeOrder(
+        // Place the order (cart -> Order)
+        Order order = customer.placeOrder(
                 req.getShippingAddress(),
                 req.getCity(),
                 req.getPostalCode(),
                 req.getPaymentMethod()
         );
 
-        // 3) Persist the new order in JSON
+        // Persist the order & clear cart
         db.saveOrder(order);
-
-        // 4) Clear that customer's cart in the JSON DB
         db.updateCustomerCart(userId, new Cart());
 
-        // 5) Return the created Order JSON back to the frontend
-        return ResponseEntity.ok(order);
+        // Build the invoice text in memory
+        Invoice invoice = new Invoice(order);
+        String invoiceText = invoice.generateInvoice(); // plain UTF-8 string
+
+        // Encode to Base64 so it’s safe to send in JSON
+        byte[] invoiceBytes = invoiceText.getBytes(StandardCharsets.UTF_8);
+        String invoiceBase64 = Base64.getEncoder().encodeToString(invoiceBytes);
+
+        //  Suggest a filename (the frontend can trust this)
+        String filename = "invoice-" + order.getOrderId() + ".txt";
+
+        //  Wrap everything in OrderWithInvoiceResponse
+        OrderWithInvoiceResponse wrapper =
+                new OrderWithInvoiceResponse(order, invoiceBase64, filename);
+
+        return ResponseEntity.ok(wrapper);
     }
 
     /**
@@ -84,6 +101,7 @@ public class OrderController {
         wrapper.set("orders", allOrders);
         return ResponseEntity.ok(wrapper);
     }
+    
     @PutMapping("/{id}/status")
     public ResponseEntity<Void> updateOrderStatus(
             @PathVariable String id,

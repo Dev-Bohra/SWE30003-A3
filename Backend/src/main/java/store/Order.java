@@ -137,7 +137,7 @@ public class Order {
         inventory.deductStock(items);
 
         // 4) Generate invoice (and send “invoice sent” notification)
-        new Invoice(this);
+        new Invoice(this).send(customerInfo);
 
         // 5) Create a Shipment (which sets trackingId + flips status → “IN_TRANSIT” + sends stub notification)
         Shipment shipment = new Shipment(this);
