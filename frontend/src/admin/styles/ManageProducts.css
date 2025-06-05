@@ -1,0 +1,270 @@
+.products-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+.products-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.products-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.products-header p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.products-table-container {
+  width: 100%;
+  margin-top: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.products-table thead {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  z-index: 1;
+}
+
+.products-table th {
+  padding: 1rem;
+  text-align: left;
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.products-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.products-table tbody {
+  overflow-y: auto;
+}
+
+.products-table tr:hover {
+  background: #f8f9fa;
+}
+
+.stock-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.stock-badge.sufficient {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.stock-badge.low {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.stock-badge.critical {
+  background: #fbe9e7;
+  color: #d32f2f;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.restock-btn,
+.toggle-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.restock-btn {
+  background: #10b981;
+  color: white;
+}
+
+.restock-btn:hover {
+  background: #059669;
+}
+
+.toggle-btn.disable {
+  background: #ef4444;
+  color: white;
+}
+
+.toggle-btn.enable {
+  background: #3b82f6;
+  color: white;
+}
+
+.toggle-btn:hover {
+  opacity: 0.9;
+}
+
+.restock-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+.products-table tr.disabled {
+  opacity: 0.5;
+  background: #f8f9fa;
+}
+.products-table tr.disabled:hover {
+  background: #f8f9fa;
+}
+
+.add-product-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+  transition: all 0.2s;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.add-product-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.modal-content .submit-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-content .submit-btn:hover {
+  background: #4f46e5;
+}
+
+.modal-content .cancel-btn {
+  background: #f3f4f6;
+  color: #4b5563;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modal-content .cancel-btn:hover {
+  background: #e5e7eb;
+}
+
+.products-table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.products-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.products-table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.products-table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 

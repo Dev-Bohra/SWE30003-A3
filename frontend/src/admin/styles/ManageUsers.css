@@ -1,0 +1,347 @@
+.users-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 200px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section Container Styles */
+.section-container {
+  margin-bottom: 3rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.section-container:last-child {
+  margin-bottom: 0;
+}
+
+.users-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.users-header h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.users-header p {
+  color: #666;
+}
+
+.users-table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.users-table thead {
+  position: sticky;
+  top: 0;
+  background: #f8f9fa;
+  z-index: 1;
+}
+
+.users-table th,
+.users-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.users-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  letter-spacing: 0.5px;
+}
+
+.users-table tbody {
+  overflow-y: auto;
+}
+
+.users-table tr:hover {
+  background: #f8f9fa;
+}
+
+.role-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.role-badge.admin {
+  background: #e6f4ea;
+  color: #1e7e34;
+}
+
+.role-badge.customer {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.role-btn,
+.toggle-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.role-btn.upgrade {
+  background: #3b82f6;
+  color: white;
+}
+
+.role-btn.downgrade {
+  background: #f59e0b;
+  color: white;
+}
+
+.toggle-btn.deactivate {
+  background: #ef4444;
+  color: white;
+}
+
+.toggle-btn.activate {
+  background: #10b981;
+  color: white;
+}
+
+.role-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Disabled user styles */
+.users-table tr.disabled {
+  opacity: 0.5;
+  background: #f8f9fa;
+}
+
+.users-table tr.disabled:hover {
+  background: #f8f9fa;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  width: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.users-table input,
+.users-table select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.users-table button {
+  padding: 0.5rem 1rem;
+  margin: 0 0.25rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.users-table button:first-child {
+  background: #28a745;
+  color: white;
+}
+
+.users-table button:last-child {
+  background: #dc3545;
+  color: white;
+}
+
+.users-table button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.status-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: white;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.status-select.active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-select.inactive {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* Custom scrollbar styles */
+.table-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Support Tickets Styles */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-badge.status-open {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.status-progress {
+  background: #cce5ff;
+  color: #004085;
+}
+
+.status-badge.status-resolved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.view-btn {
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.view-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.ticket-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.detail-row strong {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.detail-row p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.close-btn {
+  background: #6c757d;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.close-btn:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+} 
