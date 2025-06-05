@@ -5,7 +5,11 @@ A full-stack e-commerce application for electronics products.
 ## Project Structure
 
 - `frontend/`: React.js frontend application
-- `backend/`: Python backend application
+- `Backend/`: Java backend application
+
+## Instructions
+Run both frontend & backend commands in different terminals. 
+Run the backend before the frontend.
 
 ## Frontend
 
@@ -25,11 +29,12 @@ npm run dev
 ## Backend
 
 The backend is built with:
-- Python
-- Flask
+- Java
+- SpringBoot
+- Maven
 
 To run the backend:
 ```bash
-cd backend
-python app.py
+cd Backend
+./mvnw spring-boot:run
 ``` 
