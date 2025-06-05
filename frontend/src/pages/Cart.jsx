@@ -33,6 +33,10 @@ function Cart() {
       alert("Please fill in all shipping and payment fields.");
       return;
     }
+    if (!/^\d{4}$/.test(postalCode)) {
+      alert("Postal code must be exactly 4 digits (e.g. 2000).");
+      return;
+    }
 
     setPlacingOrder(true);
     try {

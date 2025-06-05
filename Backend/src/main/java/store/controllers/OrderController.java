@@ -101,7 +101,7 @@ public class OrderController {
         wrapper.set("orders", allOrders);
         return ResponseEntity.ok(wrapper);
     }
-    
+
     @PutMapping("/{id}/status")
     public ResponseEntity<Void> updateOrderStatus(
             @PathVariable String id,
